@@ -691,53 +691,66 @@
         .replace(/[\u0300-\u036f]/g, '');
     }
 
-    function parseCSVLine(line) {
-      const result = [];
-      let current = '';
-      let insideQuotes = false;
+function detectCSVDelimiter(headerLine) {
+  const commaCount = (headerLine.match(/,/g) || []).length;
+  const semicolonCount = (headerLine.match(/;/g) || []).length;
+  return semicolonCount > commaCount ? ';' : ',';
+}
 
-      for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        const nextChar = line[i + 1];
+function parseCSVLine(line, delimiter) {
+  const result = [];
+  let current = '';
+  let insideQuotes = false;
 
-        if (char === '"') {
-          if (insideQuotes && nextChar === '"') {
-            current += '"';
-            i++;
-          } else {
-            insideQuotes = !insideQuotes;
-          }
-        } else if (char === ',' && !insideQuotes) {
-          result.push(current);
-          current = '';
-        } else {
-          current += char;
-        }
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    const nextChar = line[i + 1];
+
+    if (char === '"') {
+      if (insideQuotes && nextChar === '"') {
+        current += '"';
+        i++;
+      } else {
+        insideQuotes = !insideQuotes;
       }
+      continue;
+    }
 
+    if (char === delimiter && !insideQuotes) {
       result.push(current);
-      return result;
+      current = '';
+      continue;
     }
 
-    function parseCSV(text) {
-      const cleanedText = text.replace(/^\uFEFF/, '');
-      const lines = cleanedText.split(/\r?\n/).filter(line => line.trim() !== '');
+    current += char;
+  }
 
-      if (!lines.length) return [];
+  result.push(current);
+  return result;
+}
 
-      const headers = parseCSVLine(lines[0]).map(h => h.trim());
+function parseCSV(text) {
+  const cleanedText = text.replace(/^\uFEFF/, '');
+  const lines = cleanedText.split(/\r?\n/).filter(line => line.trim() !== '');
 
-      return lines.slice(1).map(line => {
-        const values = parseCSVLine(line);
-        const row = {};
+  if (!lines.length) return [];
 
-        headers.forEach((header, index) => {
-          row[header] = (values[index] || '').trim();
-        });
+  const delimiter = detectCSVDelimiter(lines[0]);
+  const headers = parseCSVLine(lines[0], delimiter).map(h => h.trim());
 
-        return row;
-      });
-    }
+  return lines.slice(1).map(line => {
+    const values = parseCSVLine(line, delimiter);
+    const row = {};
+
+    headers.forEach((header, index) => {
+      row[header] = (values[index] || '').trim();
+    });
+
+    return row;
+  });
+}
+
+
 
     async function loadGeoJSON(path) {
       const res = await fetch(path);
