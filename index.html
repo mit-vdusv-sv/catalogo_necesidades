@@ -471,6 +471,16 @@
         <div class="layer-group-title">Primer Segmento</div>
 
         <div class="check-row">
+          <input type="checkbox" id="toggleBeneficiariosCalificados" checked>
+          <label for="toggleBeneficiariosCalificados">Beneficiarios calificados</label>
+        </div>
+
+        <div id="beneficiariosCalificadosCount" class="layer-count">
+          Beneficiarios visibles: 0
+        </div>
+
+
+        <div class="check-row">
           <input type="checkbox" id="toggleHex">
           <label for="toggleHex">Zonas de Concentración de Hogares con Necesidad de Vivienda en Terreno Propio (98494 Hogares)</label>
         </div>
@@ -485,15 +495,6 @@
           <label for="toggleBSN">Predios Banco de Suelo Nacional</label>
         </div>
 
-
-        <div class="check-row">
-          <input type="checkbox" id="toggleBeneficiariosCalificados" checked>
-          <label for="toggleBeneficiariosCalificados">Beneficiarios calificados</label>
-        </div>
-
-        <div id="beneficiariosCalificadosCount" class="layer-count">
-          Beneficiarios visibles: 0
-        </div>
 
         <div class="check-row">
           <input type="checkbox" id="toggleBSNLabels">
@@ -1738,3 +1739,4 @@ function parseCSV(text) {
   </script>
 </body>
 </html>
+
