@@ -953,6 +953,11 @@ function parseCSV(text) {
           Hogares con necesidad de vivienda en terrenos urbanizados por el Estado en <strong>${placeName}</strong>:
           <span class="filter-summary-value">${formatNumber(totalTerrenoUrbanizado)}</span>
         </div>
+
+        <div class="filter-summary-line">
+          Beneficiarios calificados en <strong>${placeName}</strong>:
+          <span class="filter-summary-value">${formatNumber(getFilteredBeneficiariosCalificadosFeatures().length)}</span>
+        </div>
       `;
 
       filterSummaryBox.style.display = 'block';
