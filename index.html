@@ -185,6 +185,13 @@
       cursor: pointer;
     }
 
+    .layer-count {
+      margin: -2px 0 10px 30px;
+      font-size: 13px;
+      color: #374151;
+      font-weight: 700;
+    }
+
     .range-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -404,6 +411,46 @@
         width: 320px;
       }
     }
+
+    @media (max-width: 900px) {
+      #app {
+        flex-direction: column;
+        overflow: auto;
+      }
+
+      #leftPanel,
+      #rightPanel {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        max-height: none;
+      }
+
+      #mapWrap {
+        min-height: 65vh;
+      }
+
+      #filterSummaryBox {
+        top: 10px;
+        right: 10px;
+        width: calc(100% - 20px);
+        max-width: calc(100% - 20px);
+      }
+
+      .legend-horizontal {
+        min-width: auto;
+        width: calc(100% - 24px);
+        left: 12px;
+        right: 12px;
+        transform: none;
+        bottom: 10px;
+        box-sizing: border-box;
+      }
+
+      .legend-secondary {
+        bottom: 112px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -424,17 +471,17 @@
         <div class="layer-group-title">Primer Segmento</div>
 
         <div class="check-row">
-          <input type="checkbox" id="toggleHex" checked>
+          <input type="checkbox" id="toggleHex">
           <label for="toggleHex">Zonas de Concentración de Hogares con Necesidad de Vivienda en Terreno Propio (98494 Hogares)</label>
         </div>
 
         <div class="check-row">
-          <input type="checkbox" id="toggleHex1B" checked>
+          <input type="checkbox" id="toggleHex1B">
           <label for="toggleHex1B">Zonas de Concentración de Hogares con Necesidad de Vivienda en Terrenos Urbanizados por el Estado (34518 Hogares)</label>
         </div>
 
         <div class="check-row">
-          <input type="checkbox" id="toggleBSN" checked>
+          <input type="checkbox" id="toggleBSN">
           <label for="toggleBSN">Predios Banco de Suelo Nacional</label>
         </div>
 
@@ -446,7 +493,16 @@
         <div class="layer-group-title">Segundo Segmento</div>
 
         <div class="check-row">
-          <input type="checkbox" id="toggleSubsidio2B" checked>
+          <input type="checkbox" id="toggleBeneficiariosCalificados" checked>
+          <label for="toggleBeneficiariosCalificados">Beneficiarios calificados</label>
+        </div>
+
+        <div id="beneficiariosCalificadosCount" class="layer-count">
+          Beneficiarios visibles: 0
+        </div>
+
+        <div class="check-row">
+          <input type="checkbox" id="toggleSubsidio2B">
           <label for="toggleSubsidio2B">Beneficiarios de Subsidio Parcial del Estado</label>
         </div>
 
@@ -579,7 +635,7 @@
     <aside id="rightPanel">
       <h2 class="detail-title">Ficha de atributos</h2>
       <div id="detailContent" class="detail-empty">
-        Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional o en un beneficiario de subsidio parcial del Estado para consultar sus atributos.
+        Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional, en un beneficiario calificado o en un beneficiario de subsidio parcial del Estado para consultar sus atributos.
       </div>
     </aside>
   </div>
@@ -592,6 +648,7 @@
       provincias: 'Provincias.geojson',
       cantones: 'Cantones.geojson',
       subsidio2B: 'Subsidio_2B.geojson',
+      beneficiariosCalificados: 'Beneficiarios_calificados.geojson',
       conteo: 'Para_Conteo.csv',
       conteo1B: 'Para_Conteo_1B.csv'
     };
@@ -630,6 +687,7 @@
     let provinciasData = null;
     let cantonesData = null;
     let subsidio2BData = null;
+    let beneficiariosCalificadosData = null;
 
     let conteoData = [];
     let conteo1BData = [];
@@ -640,6 +698,7 @@
     let provinciasLayer = null;
     let cantonesLayer = null;
     let subsidio2BLayer = null;
+    let beneficiariosCalificadosLayer = null;
     let bsnLabelsLayer = null;
 
     let selectedProvinceLayer = null;
@@ -654,6 +713,7 @@
     const toggleCantLayer = document.getElementById('toggleCantLayer');
     const toggleBSNLabels = document.getElementById('toggleBSNLabels');
     const toggleSubsidio2B = document.getElementById('toggleSubsidio2B');
+    const toggleBeneficiariosCalificados = document.getElementById('toggleBeneficiariosCalificados');
 
     const provinciaSelect = document.getElementById('provinciaSelect');
     const cantonSelect = document.getElementById('cantonSelect');
@@ -666,6 +726,7 @@
     const legendHex = document.getElementById('legendHex');
     const legendHex1B = document.getElementById('legendHex1B');
     const filterSummaryBox = document.getElementById('filterSummaryBox');
+    const beneficiariosCalificadosCount = document.getElementById('beneficiariosCalificadosCount');
 
     const hexRangeChecks = Array.from(document.querySelectorAll('.hex-range-filter'));
 
@@ -690,6 +751,45 @@
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '');
     }
+
+    function getProp(props, names) {
+      for (const name of names) {
+        if (props && Object.prototype.hasOwnProperty.call(props, name)) {
+          return props[name];
+        }
+      }
+      return '';
+    }
+
+    function featureMatchesTerritory(feature) {
+      const props = feature?.properties || {};
+      const province = normalizeText(provinciaSelect.value);
+      const canton = normalizeText(cantonSelect.value);
+
+      const featureProvince = normalizeText(getProp(props, ['PROVINCIA', 'Provincia', 'provincia']));
+      const featureCanton = normalizeText(getProp(props, ['CANTÓN', 'CANTON', 'Canton', 'canton']));
+
+      if (province && featureProvince !== province) return false;
+      if (canton && featureCanton !== canton) return false;
+      return true;
+    }
+
+    function getFilteredBeneficiariosCalificadosFeatures() {
+      return (beneficiariosCalificadosData?.features || []).filter(featureMatchesTerritory);
+    }
+
+    function countVisibleHexFeatures() {
+      const hexCount = toggleHex.checked
+        ? (hexData?.features || []).filter(f => matchesActiveRange(safeNumber(f.properties.NUMPOINTS))).length
+        : 0;
+
+      const hex1BCount = toggleHex1B.checked
+        ? (hex1BData?.features || []).filter(f => matchesActiveRange(safeNumber(f.properties.NUMPOINTS))).length
+        : 0;
+
+      return hexCount + hex1BCount;
+    }
+
 
 function detectCSVDelimiter(headerLine) {
   const commaCount = (headerLine.match(/,/g) || []).length;
@@ -866,13 +966,17 @@ function parseCSV(text) {
         ? 'Todos'
         : (activeRanges.length ? activeRanges.join(', ') : 'Ninguno');
 
-      const totalHex = hexData?.features?.length || 0;
-      const totalBsn = bsnData?.features?.length || 0;
-      const totalSubsidio2B = subsidio2BData?.features?.length || 0;
+      const totalHex = countVisibleHexFeatures();
+      const totalBsn = toggleBSN.checked ? (bsnData?.features?.length || 0) : 0;
+      const totalBeneficiariosCalificados = toggleBeneficiariosCalificados.checked ? getFilteredBeneficiariosCalificadosFeatures().length : 0;
+      const totalSubsidio2B = toggleSubsidio2B.checked ? (subsidio2BData?.features?.length || 0) : 0;
+
+      beneficiariosCalificadosCount.textContent = `Beneficiarios visibles: ${formatNumber(totalBeneficiariosCalificados)}`;
 
       statusBox.innerHTML = `
         <div><strong>Zonas visibles:</strong> ${formatNumber(totalHex)}</div>
         <div><strong>Predios BSN visibles:</strong> ${formatNumber(totalBsn)}</div>
+        <div><strong>Beneficiarios calificados visibles:</strong> ${formatNumber(totalBeneficiariosCalificados)}</div>
         <div><strong>Beneficiarios 2B visibles:</strong> ${formatNumber(totalSubsidio2B)}</div>
         <div><strong>Provincia:</strong> ${province}</div>
         <div><strong>Cantón:</strong> ${canton}</div>
@@ -883,7 +987,7 @@ function parseCSV(text) {
     function setDetailEmpty() {
       detailContent.className = 'detail-empty';
       detailContent.innerHTML = `
-        Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional o en un beneficiario de subsidio parcial del Estado para consultar sus atributos.
+        Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional, en un beneficiario calificado o en un beneficiario de subsidio parcial del Estado para consultar sus atributos.
       `;
     }
 
@@ -964,6 +1068,43 @@ function parseCSV(text) {
       `;
     }
 
+
+    function showBeneficiariosCalificadosDetails(props) {
+      const fields = [
+        ['GÉNERO', getProp(props, ['GENERO', 'GÉNERO'])],
+        ['PROVINCIA', getProp(props, ['PROVINCIA'])],
+        ['CANTÓN', getProp(props, ['CANTÓN', 'CANTON'])],
+        ['PARROQUIA', getProp(props, ['PARROQUIA'])],
+        ['SECTOR', getProp(props, ['SECTOR'])],
+        ['TIPOLOGÍA DE VIVIENDA', getProp(props, ['TIPOLOGIA', 'TIPOLOGÍA'])],
+        ['BENEFICIARIO CON INCENTIVO', getProp(props, ['INCENTIVO'])],
+        ['PUNTAJE DE REGISTRO SOCIAL', getProp(props, ['PUNTAJE'])],
+        ['ACCESIBILIDAD UNIVERSAL', getProp(props, ['ACCESIBILI'])],
+        ['CONDICIÓN DE BENEFICIARIO', getProp(props, ['BENEFICIAR'])],
+        ['BENEFICIARIO CON DISCAPACIDAD', getProp(props, ['DISCAPA'])],
+        ['FAMILIAR DE BENEFICIARIO CON DISCAPACIDAD', getProp(props, ['DISCAPA_1'])],
+        ['TIPO DE DISCAPACIDAD DEL BENEFICIARIO', getProp(props, ['TIPO_DISCA'])],
+        ['TIPO DE DISCAPACIDAD DE FAMILIAR', getProp(props, ['TIPO_DIS_1'])],
+        ['JEFE DE HOGAR', getProp(props, ['JEFE_HOGAR'])],
+        ['ADULTO MAYOR', getProp(props, ['ADULTO_M'])],
+        ['PUNTAJE DE PRIORIZACIÓN', getProp(props, ['PRIORIZACI'])],
+        ['INFORME DE SUBSECRETARIA DE VIVIENDA', getProp(props, ['INFOR_SV'])]
+      ];
+
+      detailContent.className = '';
+      detailContent.innerHTML = `
+        <div class="detail-group">
+          <div class="detail-group-title">Beneficiario calificado</div>
+          ${fields.map(([label, value]) => `
+            <div class="detail-item">
+              <span class="detail-label">${label}:</span>
+              <span class="detail-value">${formatText(value)}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
     function showSubsidio2BDetails(props) {
       detailContent.className = '';
       detailContent.innerHTML = `
@@ -1031,13 +1172,14 @@ function parseCSV(text) {
 
     async function initData() {
       try {
-        const [hex, hex1B, bsn, provincias, cantones, subsidio2B, conteo, conteo1B] = await Promise.all([
+        const [hex, hex1B, bsn, provincias, cantones, subsidio2B, beneficiariosCalificados, conteo, conteo1B] = await Promise.all([
           loadGeoJSON(FILES.hex),
           loadGeoJSON(FILES.hex1B),
           loadGeoJSON(FILES.bsn),
           loadGeoJSON(FILES.provincias),
           loadGeoJSON(FILES.cantones),
           loadGeoJSON(FILES.subsidio2B),
+          loadGeoJSON(FILES.beneficiariosCalificados),
           loadCSV(FILES.conteo),
           loadCSV(FILES.conteo1B)
         ]);
@@ -1048,6 +1190,7 @@ function parseCSV(text) {
         provinciasData = provincias;
         cantonesData = cantones;
         subsidio2BData = subsidio2B;
+        beneficiariosCalificadosData = beneficiariosCalificados;
         conteoData = conteo;
         conteo1BData = conteo1B;
 
@@ -1059,6 +1202,7 @@ function parseCSV(text) {
         rebuildHex1BLayer();
         rebuildBSNLayer();
         rebuildSubsidio2BLayer();
+        rebuildBeneficiariosCalificadosLayer();
         updateStatusBox();
         updateFilterSummaryBox();
         setLegendVisibility();
@@ -1245,6 +1389,45 @@ function parseCSV(text) {
       updateStatusBox();
     }
 
+
+    function rebuildBeneficiariosCalificadosLayer() {
+      if (beneficiariosCalificadosLayer) {
+        map.removeLayer(beneficiariosCalificadosLayer);
+      }
+
+      const filteredFeatures = getFilteredBeneficiariosCalificadosFeatures();
+
+      beneficiariosCalificadosLayer = L.geoJSON(
+        {
+          type: 'FeatureCollection',
+          features: filteredFeatures
+        },
+        {
+          pointToLayer: (feature, latlng) => {
+            return L.circleMarker(latlng, {
+              radius: 5,
+              color: '#7a0019',
+              weight: 1.2,
+              opacity: 1,
+              fillColor: '#f59e0b',
+              fillOpacity: 0.85
+            });
+          },
+          onEachFeature: (feature, layer) => {
+            layer.on('click', () => {
+              showBeneficiariosCalificadosDetails(feature.properties);
+            });
+          }
+        }
+      );
+
+      if (toggleBeneficiariosCalificados.checked) {
+        beneficiariosCalificadosLayer.addTo(map);
+      }
+
+      updateStatusBox();
+    }
+
     function rebuildSubsidio2BLayer() {
       if (subsidio2BLayer) {
         map.removeLayer(subsidio2BLayer);
@@ -1404,6 +1587,7 @@ function parseCSV(text) {
         map.removeLayer(hexLayer);
       }
       setLegendVisibility();
+      updateStatusBox();
     });
 
     toggleHex1B.addEventListener('change', () => {
@@ -1414,6 +1598,7 @@ function parseCSV(text) {
         map.removeLayer(hex1BLayer);
       }
       setLegendVisibility();
+      updateStatusBox();
     });
 
     toggleBSN.addEventListener('change', () => {
@@ -1430,6 +1615,18 @@ function parseCSV(text) {
           map.removeLayer(bsnLabelsLayer);
         }
       }
+      updateStatusBox();
+    });
+
+
+    toggleBeneficiariosCalificados.addEventListener('change', () => {
+      if (!beneficiariosCalificadosLayer) return;
+      if (toggleBeneficiariosCalificados.checked) {
+        beneficiariosCalificadosLayer.addTo(map);
+      } else {
+        map.removeLayer(beneficiariosCalificadosLayer);
+      }
+      updateStatusBox();
     });
 
     toggleSubsidio2B.addEventListener('change', () => {
@@ -1439,6 +1636,7 @@ function parseCSV(text) {
       } else {
         map.removeLayer(subsidio2BLayer);
       }
+      updateStatusBox();
     });
 
     toggleProvLayer.addEventListener('change', () => {
@@ -1480,6 +1678,7 @@ function parseCSV(text) {
         highlightProvince(province);
       }
 
+      rebuildBeneficiariosCalificadosLayer();
       updateStatusBox();
       updateFilterSummaryBox();
     });
@@ -1499,6 +1698,7 @@ function parseCSV(text) {
         highlightCanton(province, canton);
       }
 
+      rebuildBeneficiariosCalificadosLayer();
       updateStatusBox();
       updateFilterSummaryBox();
     });
@@ -1509,6 +1709,7 @@ function parseCSV(text) {
       cantonSelect.disabled = true;
       cantonSelect.innerHTML = `<option value="">(Todos)</option>`;
       clearSelectionOverlays();
+      rebuildBeneficiariosCalificadosLayer();
       updateStatusBox();
       updateFilterSummaryBox();
       setDetailEmpty();
