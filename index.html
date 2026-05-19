@@ -983,23 +983,7 @@
     mobileDetailBtn.addEventListener('click', () => openMobileSheet(rightPanel));
     mobileSummaryBtn.addEventListener('click', () => {
       const isVisible = filterSummaryBox.style.display === 'block';
-
-      if (isVisible) {
-        filterSummaryBox.style.display = 'none';
-        return;
-      }
-
-      if (!provinciaSelect.value && !cantonSelect.value) {
-        filterSummaryBox.innerHTML = `
-          <div class="filter-summary-line">
-            Aplica un filtro territorial para visualizar el resumen de las capas.
-          </div>
-        `;
-        filterSummaryBox.style.display = 'block';
-        return;
-      }
-
-      updateFilterSummaryBox();
+      filterSummaryBox.style.display = isVisible ? 'none' : 'block';
     });
     mobileBackdrop.addEventListener('click', closeMobileSheets);
 
@@ -1214,8 +1198,11 @@ function parseCSV(text) {
       const canton = cantonSelect.value;
 
       if (!province && !canton) {
+        filterSummaryBox.innerHTML = `
+          <div class="filter-summary-title">Resumen territorial</div>
+          <div class="filter-summary-line">Aplica un filtro territorial para visualizar el resumen de las capas.</div>
+        `;
         filterSummaryBox.style.display = 'none';
-        filterSummaryBox.innerHTML = '';
         return;
       }
 
@@ -2023,3 +2010,4 @@ function parseCSV(text) {
   </script>
 </body>
 </html>
+
