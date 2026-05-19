@@ -706,7 +706,6 @@
           <label for="toggleBSN">Predios Banco de Suelo Nacional</label>
         </div>
 
-
         <div class="layer-group-title">Segundo Segmento</div>
 
         <div class="check-row">
@@ -983,7 +982,22 @@
     mobileDetailBtn.addEventListener('click', () => openMobileSheet(rightPanel));
     mobileSummaryBtn.addEventListener('click', () => {
       const isVisible = filterSummaryBox.style.display === 'block';
-      filterSummaryBox.style.display = isVisible ? 'none' : 'block';
+
+      if (isVisible) {
+        filterSummaryBox.style.display = 'none';
+        return;
+      }
+
+      if (!provinciaSelect.value && !cantonSelect.value) {
+        filterSummaryBox.innerHTML = `
+          <div class="filter-summary-title">Resumen territorial</div>
+          <div class="filter-summary-line">Aplica un filtro territorial para visualizar el resumen de las capas.</div>
+        `;
+        filterSummaryBox.style.display = 'block';
+        return;
+      }
+
+      updateFilterSummaryBox();
     });
     mobileBackdrop.addEventListener('click', closeMobileSheets);
 
@@ -1198,11 +1212,8 @@ function parseCSV(text) {
       const canton = cantonSelect.value;
 
       if (!province && !canton) {
-        filterSummaryBox.innerHTML = `
-          <div class="filter-summary-title">Resumen territorial</div>
-          <div class="filter-summary-line">Aplica un filtro territorial para visualizar el resumen de las capas.</div>
-        `;
         filterSummaryBox.style.display = 'none';
+        filterSummaryBox.innerHTML = '';
         return;
       }
 
@@ -1932,16 +1943,6 @@ function parseCSV(text) {
         cantonesLayer.addTo(map);
       } else {
         map.removeLayer(cantonesLayer);
-      }
-    });
-
-    toggleBSNLabels.addEventListener('change', () => {
-      if (!bsnLabelsLayer) return;
-
-      if (toggleBSN.checked) {
-        bsnLabelsLayer.addTo(map);
-      } else {
-        map.removeLayer(bsnLabelsLayer);
       }
     });
 
