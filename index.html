@@ -451,11 +451,222 @@
         bottom: 112px;
       }
     }
+
+    /* ====== MEJORA RESPONSIVE TIPO APP MÓVIL ====== */
+    .mobile-map-actions,
+    .mobile-sheet-handle,
+    .mobile-backdrop {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      html, body, #app {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      #app {
+        display: block;
+        position: relative;
+        background: #fff;
+      }
+
+      #mapWrap {
+        position: fixed;
+        inset: 0;
+        min-height: 100vh;
+        height: 100vh;
+        width: 100vw;
+        z-index: 1;
+      }
+
+      #map {
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .mobile-map-actions {
+        display: flex;
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: calc(18px + env(safe-area-inset-bottom));
+        z-index: 1200;
+        gap: 10px;
+        justify-content: center;
+        pointer-events: none;
+      }
+
+      .mobile-action-btn {
+        pointer-events: auto;
+        border: 1px solid rgba(17,24,39,.12);
+        background: rgba(255,255,255,.96);
+        color: #111827;
+        border-radius: 999px;
+        box-shadow: 0 4px 18px rgba(0,0,0,.18);
+        padding: 10px 14px;
+        font-size: 13px;
+        font-weight: 800;
+        cursor: pointer;
+        min-height: 42px;
+      }
+
+      .mobile-action-btn.primary {
+        background: #7a0019;
+        color: #fff;
+      }
+
+      .mobile-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.25);
+        z-index: 1290;
+      }
+
+      .mobile-backdrop.is-open {
+        display: block;
+      }
+
+      #leftPanel,
+      #rightPanel {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        max-height: 78vh;
+        border-radius: 22px 22px 0 0;
+        border-left: none;
+        border-right: none;
+        border-top: 1px solid #e5e7eb;
+        box-shadow: 0 -8px 28px rgba(0,0,0,.22);
+        z-index: 1300;
+        transform: translateY(105%);
+        transition: transform .25s ease;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 18px 16px calc(24px + env(safe-area-inset-bottom)) 16px;
+        box-sizing: border-box;
+      }
+
+      #leftPanel.mobile-open,
+      #rightPanel.mobile-open {
+        transform: translateY(0);
+      }
+
+      .mobile-sheet-handle {
+        display: block;
+        width: 44px;
+        height: 5px;
+        border-radius: 999px;
+        background: #d1d5db;
+        margin: 0 auto 12px auto;
+      }
+
+      .logo-box img {
+        max-width: 190px;
+      }
+
+      .main-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+
+      .panel-text {
+        font-size: 13px;
+      }
+
+      .section {
+        border-radius: 14px;
+        padding: 12px;
+      }
+
+      .check-row {
+        align-items: flex-start;
+        font-size: 14px;
+        line-height: 1.25;
+      }
+
+      .check-row input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 auto;
+        margin-top: 1px;
+      }
+
+      .field select,
+      .field input[type="text"],
+      .btn {
+        min-height: 44px;
+        font-size: 15px;
+      }
+
+      #filterSummaryBox {
+        top: auto;
+        left: 12px;
+        right: 12px;
+        bottom: calc(76px + env(safe-area-inset-bottom));
+        width: auto;
+        max-width: none;
+        padding: 12px 14px;
+        border-radius: 16px;
+        font-size: 13px;
+        z-index: 950;
+      }
+
+      .filter-summary-title {
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+
+      .filter-summary-line {
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+
+      .legend-horizontal {
+        bottom: calc(76px + env(safe-area-inset-bottom));
+        max-height: 115px;
+        overflow: auto;
+        font-size: 11px;
+        z-index: 940;
+      }
+
+      .legend-secondary {
+        bottom: calc(190px + env(safe-area-inset-bottom));
+      }
+
+      .legend-title {
+        font-size: 12px;
+      }
+
+      .legend-labels {
+        font-size: 10px;
+        gap: 2px;
+      }
+
+      .leaflet-top.leaflet-left {
+        top: 10px;
+        left: 10px;
+      }
+
+      .leaflet-control-zoom a {
+        width: 36px !important;
+        height: 36px !important;
+        line-height: 36px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
   <div id="app">
     <aside id="leftPanel">
+      <div class="mobile-sheet-handle"></div>
       <div class="logo-box">
         <img src="logo_institucional.jpg" alt="Logo institucional">
         <h1 class="main-title">CATÁLOGO DE NECESIDADES DE VIVIENDA</h1>
@@ -600,6 +811,14 @@
 
     <div id="mapWrap">
       <div id="map"></div>
+      <div class="mobile-backdrop" id="mobileBackdrop"></div>
+
+      <div class="mobile-map-actions" aria-label="Controles móviles del mapa">
+        <button class="mobile-action-btn primary" id="mobileLayersBtn" type="button">☰ Capas y filtros</button>
+        <button class="mobile-action-btn" id="mobileSummaryBtn" type="button">Resumen</button>
+        <button class="mobile-action-btn" id="mobileDetailBtn" type="button">Ficha</button>
+      </div>
+
 
       <div id="filterSummaryBox"></div>
 
@@ -635,6 +854,7 @@
     </div>
 
     <aside id="rightPanel">
+      <div class="mobile-sheet-handle"></div>
       <h2 class="detail-title">Ficha de atributos</h2>
       <div id="detailContent" class="detail-empty">
         Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional, en un beneficiario calificado o en un beneficiario de subsidio parcial del Estado para consultar sus atributos.
@@ -729,8 +949,57 @@
     const legendHex1B = document.getElementById('legendHex1B');
     const filterSummaryBox = document.getElementById('filterSummaryBox');
     const beneficiariosCalificadosCount = document.getElementById('beneficiariosCalificadosCount');
+    const mobileLayersBtn = document.getElementById('mobileLayersBtn');
+    const mobileDetailBtn = document.getElementById('mobileDetailBtn');
+    const mobileSummaryBtn = document.getElementById('mobileSummaryBtn');
+    const mobileBackdrop = document.getElementById('mobileBackdrop');
+    const leftPanel = document.getElementById('leftPanel');
+    const rightPanel = document.getElementById('rightPanel');
+
 
     const hexRangeChecks = Array.from(document.querySelectorAll('.hex-range-filter'));
+
+    function isMobileView() {
+      return window.matchMedia('(max-width: 900px)').matches;
+    }
+
+    function closeMobileSheets() {
+      leftPanel.classList.remove('mobile-open');
+      rightPanel.classList.remove('mobile-open');
+      mobileBackdrop.classList.remove('is-open');
+      setTimeout(() => map.invalidateSize(), 260);
+    }
+
+    function openMobileSheet(panel) {
+      if (!isMobileView()) return;
+      leftPanel.classList.remove('mobile-open');
+      rightPanel.classList.remove('mobile-open');
+      panel.classList.add('mobile-open');
+      mobileBackdrop.classList.add('is-open');
+      setTimeout(() => map.invalidateSize(), 260);
+    }
+
+    function openMobileDetailsAfterClick() {
+      if (isMobileView()) {
+        openMobileSheet(rightPanel);
+      }
+    }
+
+    mobileLayersBtn.addEventListener('click', () => openMobileSheet(leftPanel));
+    mobileDetailBtn.addEventListener('click', () => openMobileSheet(rightPanel));
+    mobileSummaryBtn.addEventListener('click', () => {
+      const isVisible = filterSummaryBox.style.display === 'block';
+      filterSummaryBox.style.display = isVisible ? 'none' : 'block';
+    });
+    mobileBackdrop.addEventListener('click', closeMobileSheets);
+
+    window.addEventListener('resize', () => {
+      if (!isMobileView()) {
+        closeMobileSheets();
+      }
+      setTimeout(() => map.invalidateSize(), 250);
+    });
+
 
     function safeNumber(value) {
       const num = Number(value);
@@ -1020,6 +1289,7 @@ function parseCSV(text) {
           </div>
         </div>
       `;
+      openMobileDetailsAfterClick();
     }
 
     function showHex1BDetails(props) {
@@ -1044,6 +1314,7 @@ function parseCSV(text) {
           </div>
         </div>
       `;
+      openMobileDetailsAfterClick();
     }
 
     function showBSNDetails(props) {
@@ -1073,6 +1344,7 @@ function parseCSV(text) {
           </div>
         </div>
       `;
+      openMobileDetailsAfterClick();
     }
 
 
@@ -1110,6 +1382,7 @@ function parseCSV(text) {
           `).join('')}
         </div>
       `;
+      openMobileDetailsAfterClick();
     }
 
     function showSubsidio2BDetails(props) {
@@ -1140,6 +1413,7 @@ function parseCSV(text) {
           </div>
         </div>
       `;
+      openMobileDetailsAfterClick();
     }
 
     function zoomToLayer(layer) {
