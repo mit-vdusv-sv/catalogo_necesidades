@@ -991,9 +991,8 @@
 
       if (!provinciaSelect.value && !cantonSelect.value) {
         filterSummaryBox.innerHTML = `
-          <div class="filter-summary-title">Resumen territorial</div>
           <div class="filter-summary-line">
-            Aplica filtros para poder visualizar el resumen.
+            Aplica un filtro territorial para visualizar el resumen de las capas.
           </div>
         `;
         filterSummaryBox.style.display = 'block';
@@ -1001,7 +1000,6 @@
       }
 
       updateFilterSummaryBox();
-      filterSummaryBox.style.display = 'block';
     });
     mobileBackdrop.addEventListener('click', closeMobileSheets);
 
