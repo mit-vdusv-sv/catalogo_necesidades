@@ -1,0 +1,25 @@
+{
+  "name": "Catálogo de Necesidades de Vivienda",
+  "short_name": "Catálogo Vivienda",
+  "description": "Catálogo de necesidades de vivienda",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#7a0019",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "ICONO-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "ICONO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
