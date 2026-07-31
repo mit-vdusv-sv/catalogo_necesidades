@@ -1026,6 +1026,34 @@
       return new Intl.NumberFormat('es-EC').format(safeNumber(value));
     }
 
+    function formatCurrency(value) {
+      if (value === null || value === undefined || value === '') return 'No disponible';
+
+      let normalizedValue = value;
+      if (typeof normalizedValue === 'string') {
+        normalizedValue = normalizedValue.trim().replace(/\s/g, '');
+
+        // Admite tanto 3986811.2 como 3986811,2 y formatos con separadores de miles.
+        if (normalizedValue.includes(',') && normalizedValue.includes('.')) {
+          const lastComma = normalizedValue.lastIndexOf(',');
+          const lastDot = normalizedValue.lastIndexOf('.');
+          normalizedValue = lastComma > lastDot
+            ? normalizedValue.replace(/\./g, '').replace(',', '.')
+            : normalizedValue.replace(/,/g, '');
+        } else if (normalizedValue.includes(',')) {
+          normalizedValue = normalizedValue.replace(',', '.');
+        }
+      }
+
+      const num = Number(normalizedValue);
+      if (!Number.isFinite(num)) return 'No disponible';
+
+      return `$ ${new Intl.NumberFormat('es-EC', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(num)}`;
+    }
+
     function formatText(value) {
       if (value === null || value === undefined || value === '') return 'No disponible';
       return value;
@@ -1334,6 +1362,13 @@ function parseCSV(text) {
     }
 
     function showBSNDetails(props) {
+      const codigoBSN = getProp(props, ['CODIGO BSN', 'codigo_bsn', 'CODIGO_BSN', 'CODIGO']);
+      const area = getProp(props, ['AREA', 'area_ha', 'AREA_HA']);
+      const visUnifamiliar = getProp(props, ['VIS UNIFAM', 'UNIFAMI', 'VIS_UNIFAM']);
+      const visMultifamiliar = getProp(props, ['VIS MULTIF', 'MULTIFAMI', 'VIS_MULTIF']);
+      const presupuestoUnifamiliar = getProp(props, ['PRSUP UNIF', 'PRESUP UNIF', 'PRESUPUESTO UNIFAMILIAR', 'PRSUP_UNIF']);
+      const presupuestoMultifamiliar = getProp(props, ['PRSUP MULT', 'PRESUP MULT', 'PRESUPUESTO MULTIFAMILIAR', 'PRSUP_MULT']);
+
       detailContent.className = '';
       detailContent.innerHTML = `
         <div class="detail-group">
@@ -1341,22 +1376,32 @@ function parseCSV(text) {
 
           <div class="detail-item">
             <span class="detail-label">CÓDIGO BSN:</span>
-            <span class="detail-value">${formatText(props.codigo_bsn)}</span>
+            <span class="detail-value">${formatText(codigoBSN)}</span>
           </div>
 
           <div class="detail-item">
             <span class="detail-label">ÁREA (HA):</span>
-            <span class="detail-value">${formatText(props.area_ha)}</span>
+            <span class="detail-value">${formatText(area)}</span>
           </div>
 
           <div class="detail-item">
             <span class="detail-label">CANT. VIS UNIFAMILIARES:</span>
-            <span class="detail-value">${formatText(props.UNIFAMI)}</span>
+            <span class="detail-value">${formatText(visUnifamiliar)}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">PRESUPUESTO VIS UNIFAMILIAR:</span>
+            <span class="detail-value">${formatCurrency(presupuestoUnifamiliar)}</span>
           </div>
 
           <div class="detail-item">
             <span class="detail-label">CANT. VIS MULTIFAMILIARES:</span>
-            <span class="detail-value">${formatText(props.MULTIFAMI)}</span>
+            <span class="detail-value">${formatText(visMultifamiliar)}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">PRESUPUESTO VIS MULTIFAMILIAR:</span>
+            <span class="detail-value">${formatCurrency(presupuestoMultifamiliar)}</span>
           </div>
         </div>
       `;
@@ -1635,7 +1680,8 @@ function parseCSV(text) {
         if (!bounds.isValid()) return;
 
         const center = bounds.getCenter();
-        const labelText = feature.properties?.Name || '';
+        const props = feature.properties || {};
+        const labelText = getProp(props, ['Name', 'NOMBRE', 'CODIGO BSN', 'codigo_bsn', 'CODIGO_BSN']) || '';
 
         if (labelText) {
           const marker = L.marker(center, {
