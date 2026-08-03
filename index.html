@@ -1548,6 +1548,92 @@
       .map-use-steps{ grid-template-columns:1fr; }
     }
 
+
+    /* ===== AJUSTE TIPOGRÁFICO DEL PANEL TERRITORIAL =====
+       Mantiene la misma escala visual utilizada en las capas superiores. */
+    .territorial-section .section-title,
+    .active-layers-section .section-title{
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .territorial-section .section-hint,
+    .density-section .section-hint{
+      font-size: 11px;
+      line-height: 1.4;
+      margin-bottom: 9px;
+    }
+
+    .territorial-section .field{
+      margin-bottom: 10px;
+    }
+
+    .territorial-section .field label,
+    .density-section .field label{
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 750;
+      margin-bottom: 5px;
+    }
+
+    .territorial-section .field select{
+      min-height: 38px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .territorial-section .btn{
+      min-height: 38px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.25;
+      font-weight: 750;
+    }
+
+    .density-section{
+      padding-top: 11px;
+      padding-bottom: 11px;
+    }
+
+    .density-section > summary{
+      font-size: 12px;
+      line-height: 1.3;
+      font-weight: 750;
+    }
+
+    .density-section .range-grid{
+      gap: 3px;
+    }
+
+    .density-section .check-row{
+      margin: 5px 0;
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .density-section .transparency-value{
+      margin-top: 5px;
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .active-layers-section .status-box{
+      padding: 10px 11px;
+      border-radius: 11px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .active-layers-section .status-box strong{
+      font-weight: 750;
+    }
+
   </style>
 </head>
 <body>
@@ -1651,7 +1737,7 @@
           </details>
         </div>
 
-        <div class="section">
+        <div class="section territorial-section">
           <div class="section-title">Consulta territorial</div>
           <div class="section-hint">Elige una provincia y, si deseas, un cantón para obtener una radiografía del territorio.</div>
 
@@ -1668,7 +1754,7 @@
           <button class="btn" id="btnLimpiarFiltros">Ver todo el país</button>
         </div>
 
-        <details class="section compact-details">
+        <details class="section compact-details density-section">
           <summary>Opciones avanzadas de densidad</summary>
           <div class="section-hint" style="margin-top:10px;">Filtra las zonas según el número de hogares concentrados.</div>
           <div class="range-grid">
@@ -1686,7 +1772,7 @@
           </div>
         </details>
 
-        <div class="section">
+        <div class="section active-layers-section">
           <div class="section-title">Capas activas</div>
           <div class="status-box" id="statusBox">
             <div><strong>Zonas visibles:</strong> 0</div>
