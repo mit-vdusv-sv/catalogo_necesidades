@@ -674,145 +674,714 @@
       }
     }
 
+
+
+    /* ===== V2 CIUDADANA: interfaz de consulta pública ===== */
+    :root{
+      --citizen-surface: rgba(255,255,255,.94);
+      --citizen-soft: #f7f8fa;
+      --citizen-ink: #172033;
+      --citizen-muted: #667085;
+      --citizen-accent: #7a0019;
+      --citizen-accent-soft: #f8eef1;
+      --citizen-line: #e7e9ee;
+    }
+
+    #leftPanel{
+      padding: 18px 16px 22px 16px;
+      background: #fff;
+    }
+
+    .citizen-brand{
+      margin-bottom: 18px;
+    }
+    .citizen-kicker{
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--citizen-accent);
+      margin-bottom: 7px;
+    }
+    .citizen-title{
+      margin: 0;
+      font-size: 23px;
+      line-height: 1.08;
+      letter-spacing: -.02em;
+      color: var(--citizen-ink);
+    }
+    .citizen-intro{
+      margin: 9px 0 0 0;
+      color: var(--citizen-muted);
+      font-size: 13px;
+      line-height: 1.48;
+    }
+
+    .section{
+      background: #fff;
+      border-color: var(--citizen-line);
+      border-radius: 16px;
+      padding: 13px;
+      margin-bottom: 13px;
+    }
+    .section-title{
+      color: var(--citizen-ink);
+      margin-bottom: 10px;
+    }
+    .section-hint{
+      margin: -4px 0 10px 0;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--citizen-muted);
+    }
+
+    .mode-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+    .view-mode-btn{
+      border: 1px solid var(--citizen-line);
+      background: #fff;
+      color: #344054;
+      border-radius: 11px;
+      padding: 9px 8px;
+      min-height: 40px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 750;
+      text-align: left;
+      transition: .18s ease;
+    }
+    .view-mode-btn:hover{ background: #f8f8fa; }
+    .view-mode-btn.is-active{
+      border-color: rgba(122,0,25,.35);
+      background: var(--citizen-accent-soft);
+      color: var(--citizen-accent);
+    }
+
+    .layer-card{
+      padding: 9px 0;
+      border-bottom: 1px solid #f0f1f3;
+    }
+    .layer-card:last-child{ border-bottom: 0; padding-bottom: 2px; }
+    .layer-card .check-row{ margin: 0; }
+    .layer-card .check-row label{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      flex:1;
+      line-height:1.25;
+    }
+    .layer-symbol{
+      display:inline-block;
+      flex:0 0 auto;
+      position:relative;
+    }
+    .layer-symbol.dot{
+      width:12px;
+      height:12px;
+      border-radius:999px;
+    }
+    .layer-symbol.dot-benef{
+      background:#f59e0b;
+      border:2px solid #7a0019;
+      box-sizing:border-box;
+    }
+    .layer-symbol.dot-subsidio{
+      background:#3b82f6;
+      border:2px solid #005bbb;
+      box-sizing:border-box;
+    }
+    .layer-symbol.hex{
+      width:14px;
+      height:12px;
+      clip-path:polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+      border:1px solid rgba(0,0,0,.18);
+      box-sizing:border-box;
+    }
+    .layer-symbol.hex-own{
+      background:#fe9929;
+      border-color:#c4510b;
+    }
+    .layer-symbol.hex-state{
+      background:#73b2d8;
+      border-color:#1663aa;
+    }
+    .layer-symbol.bsn{
+      width:14px;
+      height:14px;
+      border:2px solid #cc1f1a;
+      border-radius:3px;
+      background:transparent;
+      box-sizing:border-box;
+    }
+    .layer-symbol.line-prov,
+    .layer-symbol.line-cant{
+      width:16px;
+      height:10px;
+    }
+    .layer-symbol.line-prov::before,
+    .layer-symbol.line-cant::before{
+      content:'';
+      position:absolute;
+      left:0;
+      right:0;
+      top:50%;
+      transform:translateY(-50%);
+      border-top-style:solid;
+    }
+    .layer-symbol.line-prov::before{ border-top:3px solid #2b4c7e; }
+    .layer-symbol.line-cant::before{ border-top:3px solid #6b0f1a; }
+    .layer-card .layer-explainer{
+      margin: 4px 0 0 27px;
+      font-size: 11px;
+      line-height: 1.35;
+      color: var(--citizen-muted);
+    }
+    .layer-count{
+      margin: 4px 0 0 27px;
+      color: var(--citizen-accent);
+      font-size: 11px;
+    }
+
+    .compact-details{
+      margin-top: 7px;
+      border-top: 1px solid #f0f1f3;
+      padding-top: 8px;
+    }
+    .compact-details summary{
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 750;
+      color: #475467;
+    }
+
+    #citizenMapHeader{
+      position: absolute;
+      top: 14px;
+      left: 58px;
+      right: 18px;
+      z-index: 930;
+      max-width: 900px;
+      pointer-events: none;
+    }
+    .map-search-card{
+      background: var(--citizen-surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(220,223,229,.95);
+      border-radius: 17px;
+      box-shadow: 0 6px 24px rgba(22,27,38,.12);
+      padding: 11px;
+      pointer-events: auto;
+    }
+    .map-search-heading{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .map-search-heading strong{
+      font-size: 14px;
+      color: var(--citizen-ink);
+    }
+    #metricContext{
+      font-size: 11px;
+      color: var(--citizen-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .catalog-search-row{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 7px;
+    }
+    #catalogSearch{
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #d0d5dd;
+      border-radius: 11px;
+      padding: 10px 12px;
+      background: #fff;
+      color: #101828;
+      font-size: 13px;
+      outline: none;
+    }
+    #catalogSearch:focus{
+      border-color: rgba(122,0,25,.55);
+      box-shadow: 0 0 0 3px rgba(122,0,25,.08);
+    }
+    #catalogSearchBtn{
+      border: 0;
+      border-radius: 11px;
+      padding: 0 15px;
+      background: var(--citizen-accent);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    #searchFeedback{
+      min-height: 0;
+      font-size: 11px;
+      color: #b42318;
+      margin-top: 5px;
+    }
+    #searchFeedback:empty{ display:none; }
+
+    #metricStrip{
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 7px;
+      margin-top: 8px;
+      pointer-events: auto;
+    }
+    .map-metric{
+      background: rgba(255,255,255,.93);
+      border: 1px solid rgba(220,223,229,.94);
+      border-radius: 13px;
+      padding: 9px 10px;
+      box-shadow: 0 3px 14px rgba(22,27,38,.08);
+      min-width: 0;
+    }
+    .map-metric-label{
+      display: block;
+      color: var(--citizen-muted);
+      font-size: 10px;
+      line-height: 1.25;
+      min-height: 25px;
+    }
+    .map-metric-value{
+      display: block;
+      margin-top: 3px;
+      color: var(--citizen-ink);
+      font-size: 18px;
+      font-weight: 850;
+      letter-spacing: -.02em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .map-metric-sub{
+      display: block;
+      margin-top: 2px;
+      color: var(--citizen-muted);
+      font-size: 9px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #filterSummaryBox{
+      top: 174px;
+      width: 390px;
+      padding: 14px;
+      border-radius: 16px;
+    }
+    .summary-place{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:10px;
+    }
+    .summary-place-name{
+      font-size: 16px;
+      font-weight: 850;
+      color: var(--citizen-ink);
+    }
+    .summary-place-tag{
+      font-size: 10px;
+      background: var(--citizen-accent-soft);
+      color: var(--citizen-accent);
+      border-radius: 999px;
+      padding: 4px 7px;
+      font-weight: 800;
+    }
+    .summary-mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:7px;
+    }
+    .summary-mini{
+      background:#f8f9fb;
+      border:1px solid #eceef2;
+      border-radius:11px;
+      padding:8px;
+    }
+    .summary-mini span{ display:block; font-size:10px; color:var(--citizen-muted); line-height:1.25; }
+    .summary-mini strong{ display:block; margin-top:2px; font-size:15px; color:var(--citizen-ink); }
+    .summary-budget{
+      margin-top:8px;
+      padding-top:8px;
+      border-top:1px solid #eceef2;
+      font-size:11px;
+      color:var(--citizen-muted);
+    }
+    .summary-budget strong{ color:var(--citizen-ink); }
+
+    #rightPanel{
+      background: #fff;
+      padding: 18px;
+    }
+    .detail-title{
+      font-size: 18px;
+      letter-spacing: -.015em;
+    }
+    .detail-subtitle{
+      margin: -7px 0 16px 0;
+      color: var(--citizen-muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .detail-hero{
+      border: 1px solid #e7e9ee;
+      border-radius: 15px;
+      padding: 13px;
+      margin-bottom: 12px;
+      background: #fafbfc;
+    }
+    .detail-hero-kicker{
+      color: var(--citizen-accent);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: 9px;
+      font-weight: 850;
+    }
+    .detail-hero-title{
+      margin-top: 4px;
+      font-size: 20px;
+      font-weight: 850;
+      color: var(--citizen-ink);
+    }
+    .detail-hero-place{
+      margin-top: 3px;
+      font-size: 12px;
+      color: var(--citizen-muted);
+    }
+    .detail-stat-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .detail-stat{
+      border: 1px solid #eceef2;
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
+    }
+    .detail-stat-label{
+      display:block;
+      font-size:10px;
+      line-height:1.25;
+      color:var(--citizen-muted);
+    }
+    .detail-stat-value{
+      display:block;
+      margin-top:4px;
+      font-size:17px;
+      font-weight:850;
+      color:var(--citizen-ink);
+    }
+    .detail-total-box{
+      margin-top: 8px;
+      border-radius: 13px;
+      padding: 11px;
+      background: var(--citizen-accent-soft);
+      color: var(--citizen-accent);
+    }
+    .detail-total-box span{ display:block; font-size:10px; font-weight:700; }
+    .detail-total-box strong{ display:block; margin-top:3px; font-size:16px; }
+
+    .citizen-brand-compact{
+      margin-bottom: 12px;
+    }
+    .citizen-brand-compact .citizen-intro{
+      margin-top: 0;
+    }
+
+    .downloads-section{
+      background: var(--citizen-accent-soft);
+      border-color: rgba(122,0,25,.14);
+    }
+    .downloads-heading{
+      margin: 0 0 10px 0;
+      color: var(--citizen-ink);
+      font-size: 13px;
+      line-height: 1.4;
+      font-weight: 800;
+    }
+    .download-links{
+      display: grid;
+      gap: 8px;
+    }
+    .download-link{
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid rgba(122,0,25,.20);
+      border-radius: 11px;
+      padding: 9px 10px;
+      background: #fff;
+      color: var(--citizen-accent);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.3;
+      transition: .18s ease;
+    }
+    .download-link:hover{
+      background: #fff8fa;
+      border-color: rgba(122,0,25,.38);
+    }
+    .download-link:focus-visible{
+      outline: 3px solid rgba(122,0,25,.18);
+      outline-offset: 2px;
+    }
+    .download-icon{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      flex: 0 0 28px;
+      border-radius: 8px;
+      background: var(--citizen-accent-soft);
+      color: var(--citizen-accent);
+    }
+    .download-icon svg{
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .source-text{
+      border-top: 1px solid var(--citizen-line);
+      padding-top: 12px;
+      font-size: 11px;
+      color: var(--citizen-muted);
+    }
+
+    @media (max-width: 1280px){
+      #citizenMapHeader{ max-width: 700px; }
+      .map-metric-value{ font-size: 16px; }
+      #metricStrip{ grid-template-columns: repeat(2,minmax(0,1fr)); }
+      #filterSummaryBox{ top: 245px; }
+    }
+
+    @media (max-width: 900px){
+      #citizenMapHeader{
+        top: 10px;
+        left: 56px;
+        right: 10px;
+        max-width: none;
+      }
+      .map-search-card{ padding: 8px; border-radius: 14px; }
+      .map-search-heading{ display:none; }
+      .catalog-search-row{ gap:5px; }
+      #catalogSearch{ min-height: 40px; padding: 8px 10px; font-size: 12px; }
+      #catalogSearchBtn{ min-height:40px; padding: 0 11px; font-size:12px; }
+      #metricStrip{ display:none; }
+      #filterSummaryBox{
+        top:auto;
+        width:auto;
+        max-height: 36vh;
+        overflow:auto;
+      }
+      .citizen-title{ font-size: 21px; }
+      .detail-stat-value{ font-size: 16px; }
+    }
+
   </style>
 </head>
 <body>
   <div id="app">
     <aside id="leftPanel">
       <div class="mobile-sheet-handle"></div>
-      <div class="panel-text">
-        Active o desactive capas, filtre por provincia y cantón, y consulte la información temática directamente en el panel lateral.
+
+      <div class="citizen-brand citizen-brand-compact">
+        <p class="citizen-intro">Explora las necesidades habitacionales, los beneficiarios y el suelo disponible por provincia y cantón.</p>
       </div>
 
       <div class="section">
-        <div class="section-title">Capas del catálogo</div>
-
-        <div class="layer-group-title">Primer Segmento</div>
-
-        <div class="check-row">
-          <input type="checkbox" id="toggleBeneficiariosCalificados" checked>
-          <label for="toggleBeneficiariosCalificados">Beneficiarios calificados</label>
-        </div>
-
-        <div id="beneficiariosCalificadosCount" class="layer-count">
-          Beneficiarios visibles: 0
-        </div>
-
-
-        <div class="check-row">
-          <input type="checkbox" id="toggleHex">
-          <label for="toggleHex">Zonas de Concentración de Hogares con Necesidad de Vivienda en Terreno Propio (98494 Hogares)</label>
-        </div>
-
-        <div class="check-row">
-          <input type="checkbox" id="toggleHex1B">
-          <label for="toggleHex1B">Zonas de Concentración de Hogares con Necesidad de Vivienda en Terrenos Urbanizados por el Estado (34518 Hogares)</label>
-        </div>
-
-        <div class="check-row">
-          <input type="checkbox" id="toggleBSN">
-          <label for="toggleBSN">Predios Banco de Suelo Nacional</label>
-        </div>
-
-        <div class="layer-group-title">Segundo Segmento</div>
-
-        <div class="check-row">
-          <input type="checkbox" id="toggleSubsidio2B">
-          <label for="toggleSubsidio2B">Beneficiarios de Subsidio Parcial del Estado</label>
-        </div>
-
-        <div class="layer-group-title">Información Base</div>
-
-        <div class="check-row">
-          <input type="checkbox" id="toggleProvLayer">
-          <label for="toggleProvLayer">Capa de provincias</label>
-        </div>
-
-        <div class="check-row">
-          <input type="checkbox" id="toggleCantLayer">
-          <label for="toggleCantLayer">Capa de cantones</label>
+        <div class="section-title">¿Qué quieres consultar?</div>
+        <div class="section-hint">Selecciona una vista rápida. Luego puedes activar o desactivar capas individualmente.</div>
+        <div class="mode-grid" aria-label="Vistas rápidas del catálogo">
+          <button type="button" class="view-mode-btn is-active" data-mode="general">Vista general</button>
+          <button type="button" class="view-mode-btn" data-mode="necesidad">Necesidad de vivienda</button>
+          <button type="button" class="view-mode-btn" data-mode="suelo">Suelo disponible</button>
+          <button type="button" class="view-mode-btn" data-mode="beneficiarios">Beneficiarios</button>
         </div>
       </div>
 
       <div class="section">
-        <div class="section-title">Filtros territoriales</div>
+        <div class="section-title">Información en el mapa</div>
+
+        <div class="layer-card">
+          <div class="check-row">
+            <input type="checkbox" id="toggleBeneficiariosCalificados" checked>
+            <label for="toggleBeneficiariosCalificados"><span class="layer-symbol dot dot-benef" aria-hidden="true"></span>Beneficiarios calificados</label>
+          </div>
+          <div class="layer-explainer">Personas u hogares que han cumplido el proceso de calificación correspondiente.</div>
+          <div id="beneficiariosCalificadosCount" class="layer-count">Beneficiarios visibles: 0</div>
+        </div>
+
+        <div class="layer-card">
+          <div class="check-row">
+            <input type="checkbox" id="toggleHex">
+            <label for="toggleHex"><span class="layer-symbol hex hex-own" aria-hidden="true"></span>Necesidad de vivienda en terreno propio</label>
+          </div>
+          <div class="layer-explainer">Concentración territorial de hogares que cuentan con terreno y requieren una solución habitacional.</div>
+        </div>
+
+        <div class="layer-card">
+          <div class="check-row">
+            <input type="checkbox" id="toggleHex1B">
+            <label for="toggleHex1B"><span class="layer-symbol hex hex-state" aria-hidden="true"></span>Necesidad en terrenos urbanizados por el Estado</label>
+          </div>
+          <div class="layer-explainer">Concentración de hogares con necesidad de vivienda vinculada a suelo urbanizado por el Estado.</div>
+        </div>
+
+        <div class="layer-card">
+          <div class="check-row">
+            <input type="checkbox" id="toggleBSN" checked>
+            <label for="toggleBSN"><span class="layer-symbol bsn" aria-hidden="true"></span>Predios del Banco de Suelo Nacional</label>
+          </div>
+          <div class="layer-explainer">Predios identificados con potencial para soluciones de vivienda de interés social.</div>
+        </div>
+
+        <div class="layer-card">
+          <div class="check-row">
+            <input type="checkbox" id="toggleSubsidio2B">
+            <label for="toggleSubsidio2B"><span class="layer-symbol dot dot-subsidio" aria-hidden="true"></span>Beneficiarios con subsidio parcial</label>
+          </div>
+          <div class="layer-explainer">Información correspondiente al segundo segmento de atención.</div>
+        </div>
+
+        <details class="compact-details">
+          <summary>Información territorial de referencia</summary>
+          <div class="layer-card">
+            <div class="check-row">
+              <input type="checkbox" id="toggleProvLayer">
+              <label for="toggleProvLayer"><span class="layer-symbol line-prov" aria-hidden="true"></span>Límites provinciales</label>
+            </div>
+          </div>
+          <div class="layer-card">
+            <div class="check-row">
+              <input type="checkbox" id="toggleCantLayer">
+              <label for="toggleCantLayer"><span class="layer-symbol line-cant" aria-hidden="true"></span>Límites cantonales</label>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Consulta territorial</div>
+        <div class="section-hint">Elige una provincia y, si deseas, un cantón para obtener una radiografía del territorio.</div>
 
         <div class="field">
           <label for="provinciaSelect">Provincia</label>
-          <select id="provinciaSelect">
-            <option value="">(Todas)</option>
-          </select>
+          <select id="provinciaSelect"><option value="">(Todas)</option></select>
         </div>
 
         <div class="field">
           <label for="cantonSelect">Cantón</label>
-          <select id="cantonSelect" disabled>
-            <option value="">(Todos)</option>
-          </select>
+          <select id="cantonSelect" disabled><option value="">(Todos)</option></select>
         </div>
 
-        <button class="btn" id="btnLimpiarFiltros">Limpiar filtros territoriales</button>
+        <button class="btn" id="btnLimpiarFiltros">Ver todo el país</button>
       </div>
 
-      <div class="section">
-        <div class="section-title">Filtro por densidad de hogares con necesidad de vivienda</div>
+      <details class="section compact-details">
+        <summary>Opciones avanzadas de densidad</summary>
+        <div class="section-hint" style="margin-top:10px;">Filtra las zonas según el número de hogares concentrados.</div>
         <div class="range-grid">
-          <div class="check-row">
-            <input type="checkbox" class="hex-range-filter" id="r1" value="5-20" checked>
-            <label for="r1">5 - 20</label>
-          </div>
-          <div class="check-row">
-            <input type="checkbox" class="hex-range-filter" id="r2" value="20-50" checked>
-            <label for="r2">20 - 50</label>
-          </div>
-          <div class="check-row">
-            <input type="checkbox" class="hex-range-filter" id="r3" value="50-100" checked>
-            <label for="r3">50 - 100</label>
-          </div>
-          <div class="check-row">
-            <input type="checkbox" class="hex-range-filter" id="r4" value="100-200" checked>
-            <label for="r4">100 - 200</label>
-          </div>
-          <div class="check-row">
-            <input type="checkbox" class="hex-range-filter" id="r5" value="200-500" checked>
-            <label for="r5">200 - 500</label>
-          </div>
-          <div class="check-row">
-            <input type="checkbox" class="hex-range-filter" id="r6" value="500+" checked>
-            <label for="r6">&gt; 500</label>
-          </div>
+          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r1" value="5-20" checked><label for="r1">5 - 20</label></div>
+          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r2" value="20-50" checked><label for="r2">20 - 50</label></div>
+          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r3" value="50-100" checked><label for="r3">50 - 100</label></div>
+          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r4" value="100-200" checked><label for="r4">100 - 200</label></div>
+          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r5" value="200-500" checked><label for="r5">200 - 500</label></div>
+          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r6" value="500+" checked><label for="r6">&gt; 500</label></div>
         </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Transparencia de zonas de concentración</div>
-        <div class="field">
+        <div class="field" style="margin-top:10px;">
+          <label for="hexOpacity">Transparencia de las zonas</label>
           <input type="range" id="hexOpacity" min="0" max="100" step="5" value="80">
-          <div class="transparency-value">
-            Opacidad actual: <span id="hexOpacityValue">80%</span>
-          </div>
+          <div class="transparency-value">Opacidad actual: <span id="hexOpacityValue">80%</span></div>
         </div>
-      </div>
+      </details>
 
       <div class="section">
-        <div class="section-title">Resumen</div>
+        <div class="section-title">Capas activas</div>
         <div class="status-box" id="statusBox">
           <div><strong>Zonas visibles:</strong> 0</div>
           <div><strong>Predios BSN visibles:</strong> 0</div>
-          <div><strong>Beneficiarios 2B visibles:</strong> 0</div>
-          <div><strong>Provincia:</strong> (Todas)</div>
-          <div><strong>Cantón:</strong> (Todos)</div>
-          <div><strong>Rangos visibles:</strong> Todos</div>
+          <div><strong>Beneficiarios visibles:</strong> 0</div>
+        </div>
+      </div>
+
+      <div class="section downloads-section">
+        <p class="downloads-heading">Descarga aquí el formulario de manifestación de interés y formato de oficio</p>
+        <div class="download-links">
+          <a class="download-link" href="Formato%20manifestacion%20de%20interes.docx" download>
+            <span class="download-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <path d="M14 2v6h6"></path>
+                <path d="M12 12v6"></path>
+                <path d="m9 15 3 3 3-3"></path>
+              </svg>
+            </span>
+            <span>Formulario de manifestación de interés</span>
+          </a>
+          <a class="download-link" href="Formato%20oficio.docx" download>
+            <span class="download-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <path d="M14 2v6h6"></path>
+                <path d="M12 12v6"></path>
+                <path d="m9 15 3 3 3-3"></path>
+              </svg>
+            </span>
+            <span>Formato de oficio</span>
+          </a>
         </div>
       </div>
 
       <div class="source-text">
-        <strong>Fuente:</strong> Viceministerio de Desarrollo Urbano Sostenible y Vivienda.
+        <strong>Fuente:</strong> Viceministerio de Desarrollo Urbano Sostenible y Vivienda.<br>
+        La información del catálogo tiene fines de consulta pública y debe interpretarse conforme a su metodología y fecha de corte institucional.
       </div>
     </aside>
 
     <div id="mapWrap">
       <div id="map"></div>
+
+      <div id="citizenMapHeader">
+        <div class="map-search-card">
+          <div class="map-search-heading">
+            <strong>Explora tu territorio</strong>
+            <span id="metricContext">Resumen nacional</span>
+          </div>
+          <div class="catalog-search-row">
+            <input id="catalogSearch" list="catalogSearchOptions" type="search" placeholder="Buscar provincia, cantón o código BSN…" autocomplete="off" aria-label="Buscar en el catálogo">
+            <datalist id="catalogSearchOptions"></datalist>
+            <button id="catalogSearchBtn" type="button">Buscar</button>
+          </div>
+          <div id="searchFeedback" role="status" aria-live="polite"></div>
+        </div>
+        <div id="metricStrip" aria-label="Resumen del catálogo">
+          <div class="map-metric"><span class="map-metric-label">Necesidad en terreno propio</span><strong class="map-metric-value" id="metricTerrenoPropio">0</strong><span class="map-metric-sub">hogares</span></div>
+          <div class="map-metric"><span class="map-metric-label">Necesidad en suelo urbanizado</span><strong class="map-metric-value" id="metricTerrenoUrbanizado">0</strong><span class="map-metric-sub">hogares</span></div>
+          <div class="map-metric"><span class="map-metric-label">Beneficiarios calificados</span><strong class="map-metric-value" id="metricBeneficiarios">0</strong><span class="map-metric-sub">registros visibles</span></div>
+          <div class="map-metric"><span class="map-metric-label">Predios BSN</span><strong class="map-metric-value" id="metricBSN">0</strong><span class="map-metric-sub" id="metricBSNSub">predios</span></div>
+        </div>
+      </div>
       <div class="mobile-backdrop" id="mobileBackdrop"></div>
 
       <div class="mobile-map-actions" aria-label="Controles móviles del mapa">
@@ -857,7 +1426,8 @@
 
     <aside id="rightPanel">
       <div class="mobile-sheet-handle"></div>
-      <h2 class="detail-title">Ficha de atributos</h2>
+      <h2 class="detail-title">Información del elemento</h2>
+      <div class="detail-subtitle">Selecciona un elemento del mapa para consultar sus datos de forma sencilla.</div>
       <div id="detailContent" class="detail-empty">
         Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional, en un beneficiario calificado o en un beneficiario de subsidio parcial del Estado para consultar sus atributos.
       </div>
@@ -956,6 +1526,17 @@
     const mobileBackdrop = document.getElementById('mobileBackdrop');
     const leftPanel = document.getElementById('leftPanel');
     const rightPanel = document.getElementById('rightPanel');
+    const catalogSearch = document.getElementById('catalogSearch');
+    const catalogSearchBtn = document.getElementById('catalogSearchBtn');
+    const catalogSearchOptions = document.getElementById('catalogSearchOptions');
+    const searchFeedback = document.getElementById('searchFeedback');
+    const metricContext = document.getElementById('metricContext');
+    const metricTerrenoPropio = document.getElementById('metricTerrenoPropio');
+    const metricTerrenoUrbanizado = document.getElementById('metricTerrenoUrbanizado');
+    const metricBeneficiarios = document.getElementById('metricBeneficiarios');
+    const metricBSN = document.getElementById('metricBSN');
+    const metricBSNSub = document.getElementById('metricBSNSub');
+    const viewModeButtons = Array.from(document.querySelectorAll('.view-mode-btn'));
 
 
     const hexRangeChecks = Array.from(document.querySelectorAll('.hex-range-filter'));
@@ -1243,9 +1824,55 @@ function parseCSV(text) {
       }).length;
     }
 
+    function featureMatchesNamedTerritory(feature, province, canton) {
+      const props = feature?.properties || {};
+      const p = normalizeText(province);
+      const c = normalizeText(canton);
+      const featureProvince = normalizeText(getProp(props, ['PROVINCIA', 'Provincia', 'provincia']));
+      const featureCanton = normalizeText(getProp(props, ['CANTÓN', 'CANTON', 'Canton', 'canton']));
+      if (p && featureProvince !== p) return false;
+      if (c && featureCanton !== c) return false;
+      return true;
+    }
+
+    function getFilteredBSNFeatures(province = provinciaSelect.value, canton = cantonSelect.value) {
+      return (bsnData?.features || []).filter(f => featureMatchesNamedTerritory(f, province, canton));
+    }
+
+    function getBSNStats(features) {
+      return (features || []).reduce((acc, feature) => {
+        const p = feature.properties || {};
+        acc.predios += 1;
+        acc.unif += safeNumber(getProp(p, ['VIS UNIFAM', 'UNIFAMI', 'VIS_UNIFAM']));
+        acc.mult += safeNumber(getProp(p, ['VIS MULTIF', 'MULTIFAMI', 'VIS_MULTIF']));
+        acc.presupuesto += safeNumber(getProp(p, ['PRSUP UNIF', 'PRESUP UNIF', 'PRESUPUESTO UNIFAMILIAR', 'PRSUP_UNIF']));
+        acc.presupuesto += safeNumber(getProp(p, ['PRSUP MULT', 'PRESUP MULT', 'PRESUPUESTO MULTIFAMILIAR', 'PRSUP_MULT']));
+        return acc;
+      }, { predios: 0, unif: 0, mult: 0, presupuesto: 0 });
+    }
+
+    function updateCitizenMetrics() {
+      const province = provinciaSelect.value;
+      const canton = cantonSelect.value;
+      const placeName = canton || province || 'Ecuador';
+      const terrenoPropio = countFilteredRows(conteoData, province, canton);
+      const terrenoUrbanizado = countFilteredRows(conteo1BData, province, canton);
+      const beneficiarios = (beneficiariosCalificadosData?.features || []).filter(f => featureMatchesNamedTerritory(f, province, canton)).length;
+      const bsnStats = getBSNStats(getFilteredBSNFeatures(province, canton));
+
+      metricTerrenoPropio.textContent = formatNumber(terrenoPropio);
+      metricTerrenoUrbanizado.textContent = formatNumber(terrenoUrbanizado);
+      metricBeneficiarios.textContent = formatNumber(beneficiarios);
+      metricBSN.textContent = formatNumber(bsnStats.predios);
+      metricBSNSub.textContent = `${formatNumber(bsnStats.unif + bsnStats.mult)} viviendas potenciales`;
+      metricContext.textContent = placeName === 'Ecuador' ? 'Resumen nacional' : `Resumen de ${placeName}`;
+    }
+
     function updateFilterSummaryBox() {
       const province = provinciaSelect.value;
       const canton = cantonSelect.value;
+
+      updateCitizenMetrics();
 
       if (!province && !canton) {
         filterSummaryBox.style.display = 'none';
@@ -1254,25 +1881,25 @@ function parseCSV(text) {
       }
 
       const placeName = canton || province;
-
       const totalTerrenoPropio = countFilteredRows(conteoData, province, canton);
       const totalTerrenoUrbanizado = countFilteredRows(conteo1BData, province, canton);
+      const totalBeneficiarios = (beneficiariosCalificadosData?.features || []).filter(f => featureMatchesNamedTerritory(f, province, canton)).length;
+      const bsnStats = getBSNStats(getFilteredBSNFeatures(province, canton));
 
       filterSummaryBox.innerHTML = `
-        <div class="filter-summary-title">Resumen territorial</div>
-        <div class="filter-summary-line">
-          Hogares con necesidad de vivienda en terreno propio en <strong>${placeName}</strong>:
-          <span class="filter-summary-value">${formatNumber(totalTerrenoPropio)}</span>
+        <div class="summary-place">
+          <div class="summary-place-name">${placeName}</div>
+          <div class="summary-place-tag">Radiografía territorial</div>
         </div>
-        <div class="filter-summary-line">
-          Hogares con necesidad de vivienda en terrenos urbanizados por el Estado en <strong>${placeName}</strong>:
-          <span class="filter-summary-value">${formatNumber(totalTerrenoUrbanizado)}</span>
+        <div class="summary-mini-grid">
+          <div class="summary-mini"><span>Necesidad en terreno propio</span><strong>${formatNumber(totalTerrenoPropio)}</strong></div>
+          <div class="summary-mini"><span>Necesidad en suelo urbanizado</span><strong>${formatNumber(totalTerrenoUrbanizado)}</strong></div>
+          <div class="summary-mini"><span>Beneficiarios calificados</span><strong>${formatNumber(totalBeneficiarios)}</strong></div>
+          <div class="summary-mini"><span>Predios BSN</span><strong>${formatNumber(bsnStats.predios)}</strong></div>
+          <div class="summary-mini"><span>VIS unifamiliares potenciales</span><strong>${formatNumber(bsnStats.unif)}</strong></div>
+          <div class="summary-mini"><span>VIS multifamiliares potenciales</span><strong>${formatNumber(bsnStats.mult)}</strong></div>
         </div>
-
-        <div class="filter-summary-line">
-          Beneficiarios calificados en <strong>${placeName}</strong>:
-          <span class="filter-summary-value">${formatNumber(getFilteredBeneficiariosCalificadosFeatures().length)}</span>
-        </div>
+        <div class="summary-budget">Presupuesto referencial asociado a predios BSN: <strong>${formatCurrency(bsnStats.presupuesto)}</strong></div>
       `;
 
       filterSummaryBox.style.display = 'block';
@@ -1363,46 +1990,36 @@ function parseCSV(text) {
 
     function showBSNDetails(props) {
       const codigoBSN = getProp(props, ['CODIGO BSN', 'codigo_bsn', 'CODIGO_BSN', 'CODIGO']);
+      const provincia = getProp(props, ['PROVINCIA', 'Provincia']);
+      const canton = getProp(props, ['CANTON', 'CANTÓN', 'Canton']);
       const area = getProp(props, ['AREA', 'area_ha', 'AREA_HA']);
-      const visUnifamiliar = getProp(props, ['VIS UNIFAM', 'UNIFAMI', 'VIS_UNIFAM']);
-      const visMultifamiliar = getProp(props, ['VIS MULTIF', 'MULTIFAMI', 'VIS_MULTIF']);
-      const presupuestoUnifamiliar = getProp(props, ['PRSUP UNIF', 'PRESUP UNIF', 'PRESUPUESTO UNIFAMILIAR', 'PRSUP_UNIF']);
-      const presupuestoMultifamiliar = getProp(props, ['PRSUP MULT', 'PRESUP MULT', 'PRESUPUESTO MULTIFAMILIAR', 'PRSUP_MULT']);
+      const visUnifamiliar = safeNumber(getProp(props, ['VIS UNIFAM', 'UNIFAMI', 'VIS_UNIFAM']));
+      const visMultifamiliar = safeNumber(getProp(props, ['VIS MULTIF', 'MULTIFAMI', 'VIS_MULTIF']));
+      const presupuestoUnifamiliar = safeNumber(getProp(props, ['PRSUP UNIF', 'PRESUP UNIF', 'PRESUPUESTO UNIFAMILIAR', 'PRSUP_UNIF']));
+      const presupuestoMultifamiliar = safeNumber(getProp(props, ['PRSUP MULT', 'PRESUP MULT', 'PRESUPUESTO MULTIFAMILIAR', 'PRSUP_MULT']));
+      const totalViviendas = visUnifamiliar + visMultifamiliar;
+      const presupuestoTotal = presupuestoUnifamiliar + presupuestoMultifamiliar;
 
       detailContent.className = '';
       detailContent.innerHTML = `
+        <div class="detail-hero">
+          <div class="detail-hero-kicker">Banco de Suelo Nacional</div>
+          <div class="detail-hero-title">Predio ${formatText(codigoBSN)}</div>
+          <div class="detail-hero-place">${[canton, provincia].filter(Boolean).join(' · ') || 'Ubicación no disponible'}</div>
+        </div>
+
+        <div class="detail-stat-grid">
+          <div class="detail-stat"><span class="detail-stat-label">Área del predio</span><strong class="detail-stat-value">${formatText(area)} ha</strong></div>
+          <div class="detail-stat"><span class="detail-stat-label">Viviendas potenciales</span><strong class="detail-stat-value">${formatNumber(totalViviendas)}</strong></div>
+          <div class="detail-stat"><span class="detail-stat-label">VIS unifamiliares</span><strong class="detail-stat-value">${formatNumber(visUnifamiliar)}</strong></div>
+          <div class="detail-stat"><span class="detail-stat-label">VIS multifamiliares</span><strong class="detail-stat-value">${formatNumber(visMultifamiliar)}</strong></div>
+        </div>
+
         <div class="detail-group">
-          <div class="detail-group-title">Predio Banco de Suelo Nacional</div>
-
-          <div class="detail-item">
-            <span class="detail-label">CÓDIGO BSN:</span>
-            <span class="detail-value">${formatText(codigoBSN)}</span>
-          </div>
-
-          <div class="detail-item">
-            <span class="detail-label">ÁREA (HA):</span>
-            <span class="detail-value">${formatText(area)}</span>
-          </div>
-
-          <div class="detail-item">
-            <span class="detail-label">CANT. VIS UNIFAMILIARES:</span>
-            <span class="detail-value">${formatText(visUnifamiliar)}</span>
-          </div>
-
-          <div class="detail-item">
-            <span class="detail-label">PRESUPUESTO VIS UNIFAMILIAR:</span>
-            <span class="detail-value">${formatCurrency(presupuestoUnifamiliar)}</span>
-          </div>
-
-          <div class="detail-item">
-            <span class="detail-label">CANT. VIS MULTIFAMILIARES:</span>
-            <span class="detail-value">${formatText(visMultifamiliar)}</span>
-          </div>
-
-          <div class="detail-item">
-            <span class="detail-label">PRESUPUESTO VIS MULTIFAMILIAR:</span>
-            <span class="detail-value">${formatCurrency(presupuestoMultifamiliar)}</span>
-          </div>
+          <div class="detail-group-title">Presupuesto referencial</div>
+          <div class="detail-item"><span class="detail-label">Vivienda unifamiliar</span><span class="detail-value">${formatCurrency(presupuestoUnifamiliar)}</span></div>
+          <div class="detail-item"><span class="detail-label">Vivienda multifamiliar</span><span class="detail-value">${formatCurrency(presupuestoMultifamiliar)}</span></div>
+          <div class="detail-total-box"><span>Presupuesto total estimado</span><strong>${formatCurrency(presupuestoTotal)}</strong></div>
         </div>
       `;
       openMobileDetailsAfterClick();
@@ -1512,6 +2129,137 @@ function parseCSV(text) {
       };
     }
 
+    function populateCatalogSearchOptions() {
+      const values = new Set();
+      (provinciasData?.features || []).forEach(f => {
+        const n = (f.properties?.DPA_DESPRO || '').trim();
+        if (n) values.add(n);
+      });
+      (cantonesData?.features || []).forEach(f => {
+        const c = (f.properties?.DPA_DESCAN || '').trim();
+        const p = (f.properties?.DPA_DESPRO || '').trim();
+        if (c) values.add(p ? `${c} — ${p}` : c);
+      });
+      (bsnData?.features || []).forEach(f => {
+        const code = getProp(f.properties || {}, ['CODIGO BSN', 'codigo_bsn', 'CODIGO_BSN']);
+        if (code !== '') values.add(`BSN ${code}`);
+      });
+      catalogSearchOptions.innerHTML = [...values].sort((a,b) => a.localeCompare(b,'es')).map(v => `<option value="${v}"></option>`).join('');
+    }
+
+    function applyTerritorialSelection(province, canton = '') {
+      provinciaSelect.value = province || '';
+      populateCantonSelect(province || '');
+      cantonSelect.value = canton || '';
+      clearSelectionOverlays();
+      if (province && canton) highlightCanton(province, canton);
+      else if (province) highlightProvince(province);
+      rebuildBeneficiariosCalificadosLayer();
+      updateStatusBox();
+      updateFilterSummaryBox();
+    }
+
+    function performCatalogSearch() {
+      searchFeedback.textContent = '';
+      const raw = catalogSearch.value.trim();
+      const q = normalizeText(raw.replace(/^BSN\s+/i,''));
+      if (!q) return;
+
+      const bsnFeature = (bsnData?.features || []).find(f => {
+        const code = normalizeText(getProp(f.properties || {}, ['CODIGO BSN', 'codigo_bsn', 'CODIGO_BSN']));
+        return code === q || normalizeText(`BSN ${code}`) === normalizeText(raw);
+      });
+      if (bsnFeature) {
+        toggleBSN.checked = true;
+        if (bsnLayer && !map.hasLayer(bsnLayer)) bsnLayer.addTo(map);
+        if (bsnLabelsLayer && !map.hasLayer(bsnLabelsLayer)) bsnLabelsLayer.addTo(map);
+        const featureLayer = L.geoJSON(bsnFeature);
+        if (featureLayer.getBounds().isValid()) map.fitBounds(featureLayer.getBounds(), {padding:[50,50], maxZoom:16});
+        showBSNDetails(bsnFeature.properties || {});
+        catalogSearch.value = `BSN ${getProp(bsnFeature.properties || {}, ['CODIGO BSN','codigo_bsn','CODIGO_BSN'])}`;
+        return;
+      }
+
+      const provinceFeature = (provinciasData?.features || []).find(f => normalizeText(f.properties?.DPA_DESPRO) === q);
+      if (provinceFeature) {
+        const province = (provinceFeature.properties?.DPA_DESPRO || '').trim();
+        catalogSearch.value = province;
+        applyTerritorialSelection(province, '');
+        return;
+      }
+
+      const cantonFeature = (cantonesData?.features || []).find(f => {
+        const canton = normalizeText(f.properties?.DPA_DESCAN);
+        const label = normalizeText(`${f.properties?.DPA_DESCAN || ''} — ${f.properties?.DPA_DESPRO || ''}`);
+        return canton === q || label === normalizeText(raw);
+      });
+      if (cantonFeature) {
+        const province = (cantonFeature.properties?.DPA_DESPRO || '').trim();
+        const canton = (cantonFeature.properties?.DPA_DESCAN || '').trim();
+        catalogSearch.value = `${canton} — ${province}`;
+        applyTerritorialSelection(province, canton);
+        return;
+      }
+
+      const partialProvince = (provinciasData?.features || []).find(f => normalizeText(f.properties?.DPA_DESPRO).includes(q));
+      if (partialProvince) {
+        const province = (partialProvince.properties?.DPA_DESPRO || '').trim();
+        catalogSearch.value = province;
+        applyTerritorialSelection(province, '');
+        return;
+      }
+      const partialCanton = (cantonesData?.features || []).find(f => normalizeText(f.properties?.DPA_DESCAN).includes(q));
+      if (partialCanton) {
+        const province = (partialCanton.properties?.DPA_DESPRO || '').trim();
+        const canton = (partialCanton.properties?.DPA_DESCAN || '').trim();
+        catalogSearch.value = `${canton} — ${province}`;
+        applyTerritorialSelection(province, canton);
+        return;
+      }
+
+      searchFeedback.textContent = 'No encontramos ese territorio o código BSN. Prueba con otro término.';
+    }
+
+    function setModeButtonActive(mode) {
+      viewModeButtons.forEach(btn => btn.classList.toggle('is-active', btn.dataset.mode === mode));
+    }
+
+    function setLayerToggle(toggle, checked) {
+      if (toggle.checked === checked) return;
+      toggle.checked = checked;
+      toggle.dispatchEvent(new Event('change'));
+    }
+
+    function applyViewMode(mode) {
+      setModeButtonActive(mode);
+      if (mode === 'necesidad') {
+        setLayerToggle(toggleHex, true);
+        setLayerToggle(toggleHex1B, true);
+        setLayerToggle(toggleBSN, false);
+        setLayerToggle(toggleBeneficiariosCalificados, false);
+        setLayerToggle(toggleSubsidio2B, false);
+      } else if (mode === 'suelo') {
+        setLayerToggle(toggleHex, false);
+        setLayerToggle(toggleHex1B, false);
+        setLayerToggle(toggleBSN, true);
+        setLayerToggle(toggleBeneficiariosCalificados, false);
+        setLayerToggle(toggleSubsidio2B, false);
+      } else if (mode === 'beneficiarios') {
+        setLayerToggle(toggleHex, false);
+        setLayerToggle(toggleHex1B, false);
+        setLayerToggle(toggleBSN, false);
+        setLayerToggle(toggleBeneficiariosCalificados, true);
+        setLayerToggle(toggleSubsidio2B, true);
+      } else {
+        setLayerToggle(toggleHex, false);
+        setLayerToggle(toggleHex1B, false);
+        setLayerToggle(toggleBSN, true);
+        setLayerToggle(toggleBeneficiariosCalificados, true);
+        setLayerToggle(toggleSubsidio2B, false);
+      }
+      updateCitizenMetrics();
+    }
+
     async function initData() {
       try {
         const [hex, hex1B, bsn, provincias, cantones, subsidio2B, beneficiariosCalificados, conteo, conteo1B] = await Promise.all([
@@ -1548,6 +2296,8 @@ function parseCSV(text) {
         updateStatusBox();
         updateFilterSummaryBox();
         setLegendVisibility();
+        populateCatalogSearchOptions();
+        updateCitizenMetrics();
       } catch (error) {
         console.error(error);
         detailContent.className = 'detail-empty';
@@ -2041,6 +2791,8 @@ function parseCSV(text) {
       cantonSelect.value = '';
       cantonSelect.disabled = true;
       cantonSelect.innerHTML = `<option value="">(Todos)</option>`;
+      catalogSearch.value = '';
+      searchFeedback.textContent = '';
       clearSelectionOverlays();
       rebuildBeneficiariosCalificadosLayer();
       updateStatusBox();
@@ -2058,6 +2810,14 @@ function parseCSV(text) {
 
     hexOpacity.addEventListener('input', (e) => {
       setHexOpacity(e.target.value);
+    });
+
+    catalogSearchBtn.addEventListener('click', performCatalogSearch);
+    catalogSearch.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') performCatalogSearch();
+    });
+    viewModeButtons.forEach(btn => {
+      btn.addEventListener('click', () => applyViewMode(btn.dataset.mode));
     });
 
     initData();
