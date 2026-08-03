@@ -863,8 +863,10 @@
       top: 14px;
       left: 58px;
       right: 18px;
+      width: auto;
+      max-width: none;
+      box-sizing: border-box;
       z-index: 930;
-      max-width: 900px;
       pointer-events: none;
     }
     .map-search-card{
@@ -1169,7 +1171,11 @@
     }
 
     @media (max-width: 1280px){
-      #citizenMapHeader{ max-width: 700px; }
+      #citizenMapHeader{
+        left: 54px;
+        right: 12px;
+        max-width: none;
+      }
       .map-metric-value{ font-size: 16px; }
       #metricStrip{ grid-template-columns: repeat(2,minmax(0,1fr)); }
       #filterSummaryBox{ top: 245px; }
@@ -1490,22 +1496,6 @@
       font-weight:850;
       word-break:break-all;
     }
-    .email-link{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:100%;
-      min-height:40px;
-      box-sizing:border-box;
-      border-radius:11px;
-      background:var(--guide-blue);
-      color:#fff;
-      text-decoration:none;
-      font-size:12px;
-      font-weight:850;
-    }
-    .email-link:hover{ filter:brightness(.96); }
-
     .legal-note{
       margin-top:10px;
       padding:10px;
@@ -1792,7 +1782,6 @@
           <strong>Envía la manifestación de interés</strong>
           <p>Adjunta el formulario de manifestación de interés y el formato de oficio completos. Mientras se habilita la ventanilla digital, remítelos al correo:</p>
           <span class="email-address">tramites@mit.gob.ec</span>
-          <a class="email-link" href="mailto:tramites@mit.gob.ec?subject=Manifestaci%C3%B3n%20de%20inter%C3%A9s%20-%20Incentivo%20tributario%20VIS">Preparar correo electrónico</a>
         </div>
 
         <div class="legal-note">
