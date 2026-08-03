@@ -789,10 +789,11 @@
       border:2px solid #7a0019;
       box-sizing:border-box;
     }
-    .layer-symbol.dot-subsidio{
-      background:#3b82f6;
-      border:2px solid #005bbb;
+    .layer-symbol.dot-project{
+      background:#2563eb;
+      border:2px solid #0f3f91;
       box-sizing:border-box;
+      box-shadow:0 0 0 1px rgba(255,255,255,.85);
     }
     .layer-symbol.hex{
       width:14px;
@@ -1651,7 +1652,7 @@
           <div class="purpose-icon" aria-hidden="true">⌖</div>
           <div>
             <strong>¿Para qué sirve este catálogo?</strong>
-            <p>Permite consultar información pública, georreferenciada y referencial sobre necesidades de vivienda, beneficiarios y suelo público disponible.</p>
+            <p>Permite consultar información pública, georreferenciada y referencial sobre necesidades de vivienda, beneficiarios, proyectos del segundo segmento y suelo público disponible.</p>
           </div>
           <div class="purpose-note">La información apoya la planificación, focalización y priorización de la política pública, y orienta a los contribuyentes interesados en acogerse al incentivo tributario.</div>
         </div>
@@ -1672,7 +1673,7 @@
             <button type="button" class="view-mode-btn is-active" data-mode="general">Vista general</button>
             <button type="button" class="view-mode-btn" data-mode="necesidad">Necesidad de vivienda</button>
             <button type="button" class="view-mode-btn" data-mode="suelo">Suelo disponible</button>
-            <button type="button" class="view-mode-btn" data-mode="beneficiarios">Beneficiarios</button>
+            <button type="button" class="view-mode-btn" data-mode="proyectos">Proyectos segundo segmento</button>
           </div>
         </div>
 
@@ -1714,10 +1715,11 @@
 
           <div class="layer-card">
             <div class="check-row">
-              <input type="checkbox" id="toggleSubsidio2B">
-              <label for="toggleSubsidio2B"><span class="layer-symbol dot dot-subsidio" aria-hidden="true"></span>Beneficiarios con subsidio parcial</label>
+              <input type="checkbox" id="toggleSegundoSegmento" checked>
+              <label for="toggleSegundoSegmento"><span class="layer-symbol dot dot-project" aria-hidden="true"></span>Proyectos de vivienda del segundo segmento</label>
             </div>
-            <div class="layer-explainer">Información correspondiente al segundo segmento de atención.</div>
+            <div class="layer-explainer">Proyectos registrados desde el 23 de noviembre de 2023 con coordenada verificada. La capa se actualiza automáticamente desde Google Sheets.</div>
+            <div id="segundoSegmentoCount" class="layer-count">Cargando proyectos…</div>
           </div>
 
           <details class="compact-details">
@@ -1876,7 +1878,7 @@
 
         <div class="source-text">
           <strong>Base normativa:</strong> Reglamento Especial para la Aplicación del Régimen de Incentivos Tributarios para Vivienda de Interés Social.<br>
-          <strong>Fuente institucional:</strong> Viceministerio de Desarrollo Urbano Sostenible y Vivienda.
+          <strong>Fuente institucional:</strong> Viceministerio de Desarrollo Urbano Sostenible y Vivienda. Los proyectos del segundo segmento se consultan en tiempo real desde la matriz pública de Google Sheets.
         </div>
       </section>
     </aside>
@@ -1891,7 +1893,7 @@
             <span id="metricContext">Resumen nacional</span>
           </div>
           <div class="catalog-search-row">
-            <input id="catalogSearch" list="catalogSearchOptions" type="search" placeholder="Buscar provincia, cantón o código BSN…" autocomplete="off" aria-label="Buscar en el catálogo">
+            <input id="catalogSearch" list="catalogSearchOptions" type="search" placeholder="Buscar provincia, cantón, proyecto o código BSN…" autocomplete="off" aria-label="Buscar en el catálogo">
             <datalist id="catalogSearchOptions"></datalist>
             <button id="catalogSearchBtn" type="button">Buscar</button>
           </div>
@@ -1951,7 +1953,7 @@
       <h2 class="detail-title">Información del elemento</h2>
       <div class="detail-subtitle">Selecciona un elemento del mapa para consultar sus datos de forma sencilla.</div>
       <div id="detailContent" class="detail-empty">
-        Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional, en un beneficiario calificado o en un beneficiario de subsidio parcial del Estado para consultar sus atributos.
+        Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional, en un beneficiario calificado o en un proyecto de vivienda del segundo segmento para consultar sus atributos.
       </div>
     </aside>
   </div>
@@ -1963,10 +1965,16 @@
       bsn: 'Bsn_SolicitudVivienda.geojson',
       provincias: 'Provincias.geojson',
       cantones: 'Cantones.geojson',
-      subsidio2B: 'Subsidio_2B.geojson',
       beneficiariosCalificados: 'Beneficiarios_calificados.geojson',
       conteo: 'Para_Conteo.csv',
       conteo1B: 'Para_Conteo_1B.csv'
+    };
+
+    const SECOND_SEGMENT_SHEET = {
+      id: '107ZMNZpjswuc-SBBeXvcOxGfr5bxj3c9Rk3B8zT8wN0',
+      gid: '0',
+      startDate: '2023-11-23',
+      callbackName: 'handleSecondSegmentProjectsResponse'
     };
 
     const HEX_COLORS = {
@@ -2002,7 +2010,9 @@
     let bsnData = null;
     let provinciasData = null;
     let cantonesData = null;
-    let subsidio2BData = null;
+    let segundoSegmentoData = { type: 'FeatureCollection', features: [] };
+    let segundoSegmentoLoadError = '';
+    let segundoSegmentoLoading = true;
     let beneficiariosCalificadosData = null;
 
     let conteoData = [];
@@ -2013,7 +2023,7 @@
     let bsnLayer = null;
     let provinciasLayer = null;
     let cantonesLayer = null;
-    let subsidio2BLayer = null;
+    let segundoSegmentoLayer = null;
     let beneficiariosCalificadosLayer = null;
     let bsnLabelsLayer = null;
 
@@ -2027,7 +2037,7 @@
     const toggleBSN = document.getElementById('toggleBSN');
     const toggleProvLayer = document.getElementById('toggleProvLayer');
     const toggleCantLayer = document.getElementById('toggleCantLayer');
-    const toggleSubsidio2B = document.getElementById('toggleSubsidio2B');
+    const toggleSegundoSegmento = document.getElementById('toggleSegundoSegmento');
     const toggleBeneficiariosCalificados = document.getElementById('toggleBeneficiariosCalificados');
 
     const provinciaSelect = document.getElementById('provinciaSelect');
@@ -2042,6 +2052,7 @@
     const legendHex1B = document.getElementById('legendHex1B');
     const filterSummaryBox = document.getElementById('filterSummaryBox');
     const beneficiariosCalificadosCount = document.getElementById('beneficiariosCalificadosCount');
+    const segundoSegmentoCount = document.getElementById('segundoSegmentoCount');
     const mobileLayersBtn = document.getElementById('mobileLayersBtn');
     const mobileDetailBtn = document.getElementById('mobileDetailBtn');
     const mobileSummaryBtn = document.getElementById('mobileSummaryBtn');
@@ -2162,6 +2173,15 @@
       return value;
     }
 
+    function escapeHTML(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
     function normalizeText(value) {
       return String(value || '')
         .trim()
@@ -2194,6 +2214,10 @@
 
     function getFilteredBeneficiariosCalificadosFeatures() {
       return (beneficiariosCalificadosData?.features || []).filter(featureMatchesTerritory);
+    }
+
+    function getFilteredSegundoSegmentoFeatures() {
+      return (segundoSegmentoData?.features || []).filter(featureMatchesTerritory);
     }
 
     function countVisibleHexFeatures() {
@@ -2281,6 +2305,171 @@ function parseCSV(text) {
       if (!res.ok) throw new Error(`No se pudo cargar ${path}`);
       const text = await res.text();
       return parseCSV(text);
+    }
+
+
+    function sheetCell(row, index) {
+      return row?.c?.[index] || null;
+    }
+
+    function sheetCellValue(row, index) {
+      const cell = sheetCell(row, index);
+      if (!cell) return '';
+      if (cell.v !== null && cell.v !== undefined) return cell.v;
+      return cell.f ?? '';
+    }
+
+    function parseSheetCoordinate(value) {
+      if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+      const normalized = String(value ?? '').trim().replace(/\s/g, '').replace(',', '.');
+      const number = Number(normalized);
+      return Number.isFinite(number) ? number : null;
+    }
+
+    function parseSheetDate(cell) {
+      if (!cell) return null;
+      const raw = cell.v;
+      if (raw instanceof Date && !Number.isNaN(raw.getTime())) return raw;
+
+      if (typeof raw === 'string') {
+        const googleDate = raw.match(/^Date\((\d{4}),(\d{1,2}),(\d{1,2})/);
+        if (googleDate) {
+          return new Date(Number(googleDate[1]), Number(googleDate[2]), Number(googleDate[3]));
+        }
+      }
+
+      if (typeof raw === 'number' && raw > 20000) {
+        return new Date(Date.UTC(1899, 11, 30) + raw * 86400000);
+      }
+
+      const displayed = String(cell.f ?? raw ?? '').trim();
+      let match = displayed.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/);
+      if (match) return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+
+      match = displayed.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (match) {
+        const first = Number(match[1]);
+        const second = Number(match[2]);
+        const year = Number(match[3]);
+        if (second > 12) return new Date(year, first - 1, second);
+        if (first > 12) return new Date(year, second - 1, first);
+        return new Date(year, first - 1, second);
+      }
+
+      const parsed = new Date(displayed);
+      return Number.isNaN(parsed.getTime()) ? null : parsed;
+    }
+
+    function formatISODate(date) {
+      if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '';
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function buildSecondSegmentGeoJSON(response) {
+      if (!response || response.status === 'error' || !response.table) {
+        const message = response?.errors?.map(error => error.detailed_message || error.message).filter(Boolean).join(' ') || 'Respuesta inválida de Google Sheets.';
+        throw new Error(message);
+      }
+
+      const rows = response.table.rows || [];
+      const startDate = new Date(`${SECOND_SEGMENT_SHEET.startDate}T00:00:00`);
+      const today = new Date();
+      today.setHours(23, 59, 59, 999);
+      const uniqueProjects = new Map();
+
+      rows.forEach(row => {
+        // Columnas de la matriz: B nombre, C provincia, D cantón, F/G segmento,
+        // K registro, L fecha, O longitud (X), P latitud (Y), Q verificada y W sector.
+        const name = String(sheetCellValue(row, 1) ?? '').trim();
+        const province = String(sheetCellValue(row, 2) ?? '').trim();
+        const canton = String(sheetCellValue(row, 3) ?? '').trim();
+        const segmentF = normalizeText(sheetCellValue(row, 5));
+        const segmentG = normalizeText(sheetCellValue(row, 6));
+        const registration = String(sheetCellValue(row, 10) ?? '').trim();
+        const registrationDate = parseSheetDate(sheetCell(row, 11));
+        const longitude = parseSheetCoordinate(sheetCellValue(row, 14));
+        const latitude = parseSheetCoordinate(sheetCellValue(row, 15));
+        const verified = normalizeText(sheetCellValue(row, 16));
+        const sector = String(sheetCellValue(row, 22) ?? '').trim();
+
+        const isSecondSegment = segmentF === 'SEGUNDO' || segmentG === 'SEGUNDO';
+        const isVerified = verified === 'SI';
+        const isDateAllowed = registrationDate && registrationDate >= startDate && registrationDate <= today;
+        const validCoordinates = latitude !== null && longitude !== null && latitude >= -6 && latitude <= 3 && longitude >= -92 && longitude <= -74;
+
+        if (!name || !isSecondSegment || !isVerified || !isDateAllowed || !validCoordinates) return;
+
+        const key = registration || `${normalizeText(name)}|${longitude.toFixed(6)}|${latitude.toFixed(6)}`;
+        if (uniqueProjects.has(key)) return;
+
+        uniqueProjects.set(key, {
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [longitude, latitude] },
+          properties: {
+            'NOMBRE DEL PROYECTO': name,
+            'PROVINCIA': province,
+            'CANTON': canton,
+            'SECTOR': sector,
+            'LATITUD': latitude,
+            'LONGITUD': longitude,
+            'NRO DE REGISTRO': registration,
+            'FECHA DE REGISTRO': formatISODate(registrationDate)
+          }
+        });
+      });
+
+      return { type: 'FeatureCollection', features: [...uniqueProjects.values()] };
+    }
+
+    let secondSegmentRequest = null;
+
+    window.handleSecondSegmentProjectsResponse = function(response) {
+      if (!secondSegmentRequest) return;
+      try {
+        const data = buildSecondSegmentGeoJSON(response);
+        secondSegmentRequest.resolve(data);
+      } catch (error) {
+        secondSegmentRequest.reject(error);
+      } finally {
+        clearTimeout(secondSegmentRequest.timeoutId);
+        secondSegmentRequest.script?.remove();
+        secondSegmentRequest = null;
+      }
+    };
+
+    function loadSecondSegmentProjects() {
+      return new Promise((resolve, reject) => {
+        if (secondSegmentRequest) {
+          secondSegmentRequest.reject(new Error('Se reemplazó una solicitud anterior de proyectos.'));
+          clearTimeout(secondSegmentRequest.timeoutId);
+          secondSegmentRequest.script?.remove();
+        }
+
+        const script = document.createElement('script');
+        const tqx = encodeURIComponent(`out:json;responseHandler:${SECOND_SEGMENT_SHEET.callbackName}`);
+        script.src = `https://docs.google.com/spreadsheets/d/${SECOND_SEGMENT_SHEET.id}/gviz/tq?gid=${SECOND_SEGMENT_SHEET.gid}&headers=1&tqx=${tqx}&_=${Date.now()}`;
+        script.async = true;
+        script.onerror = () => {
+          if (!secondSegmentRequest) return;
+          clearTimeout(secondSegmentRequest.timeoutId);
+          secondSegmentRequest = null;
+          script.remove();
+          reject(new Error('No se pudo conectar con Google Sheets. Verifique que la hoja tenga acceso público de lectura.'));
+        };
+
+        const timeoutId = setTimeout(() => {
+          if (!secondSegmentRequest) return;
+          secondSegmentRequest = null;
+          script.remove();
+          reject(new Error('La carga de proyectos desde Google Sheets superó el tiempo de espera.'));
+        }, 25000);
+
+        secondSegmentRequest = { resolve, reject, script, timeoutId };
+        document.head.appendChild(script);
+      });
     }
 
     function getHexCategory(num) {
@@ -2438,15 +2627,20 @@ function parseCSV(text) {
       const totalHex = countVisibleHexFeatures();
       const totalBsn = toggleBSN.checked ? (bsnData?.features?.length || 0) : 0;
       const totalBeneficiariosCalificados = toggleBeneficiariosCalificados.checked ? getFilteredBeneficiariosCalificadosFeatures().length : 0;
-      const totalSubsidio2B = toggleSubsidio2B.checked ? (subsidio2BData?.features?.length || 0) : 0;
+      const totalSegundoSegmento = toggleSegundoSegmento.checked ? getFilteredSegundoSegmentoFeatures().length : 0;
 
       beneficiariosCalificadosCount.textContent = `Beneficiarios visibles: ${formatNumber(totalBeneficiariosCalificados)}`;
+      segundoSegmentoCount.textContent = segundoSegmentoLoading
+        ? 'Cargando proyectos…'
+        : (segundoSegmentoLoadError
+          ? 'No se pudieron cargar los proyectos'
+          : `Proyectos visibles: ${formatNumber(totalSegundoSegmento)}`);
 
       statusBox.innerHTML = `
         <div><strong>Zonas visibles:</strong> ${formatNumber(totalHex)}</div>
         <div><strong>Predios BSN visibles:</strong> ${formatNumber(totalBsn)}</div>
         <div><strong>Beneficiarios calificados visibles:</strong> ${formatNumber(totalBeneficiariosCalificados)}</div>
-        <div><strong>Beneficiarios 2B visibles:</strong> ${formatNumber(totalSubsidio2B)}</div>
+        <div><strong>Proyectos del segundo segmento visibles:</strong> ${formatNumber(totalSegundoSegmento)}</div>
         <div><strong>Provincia:</strong> ${province}</div>
         <div><strong>Cantón:</strong> ${canton}</div>
         <div><strong>Rangos visibles:</strong> ${rangesLabel}</div>
@@ -2456,7 +2650,7 @@ function parseCSV(text) {
     function setDetailEmpty() {
       detailContent.className = 'detail-empty';
       detailContent.innerHTML = `
-        Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional, en un beneficiario calificado o en un beneficiario de subsidio parcial del Estado para consultar sus atributos.
+        Haga clic en una zona de concentración, en un predio del Banco de Suelo Nacional, en un beneficiario calificado o en un proyecto de vivienda del segundo segmento para consultar sus atributos.
       `;
     }
 
@@ -2585,31 +2779,42 @@ function parseCSV(text) {
       openMobileDetailsAfterClick();
     }
 
-    function showSubsidio2BDetails(props) {
+    function showSegundoSegmentoDetails(props) {
+      const latitude = safeNumber(getProp(props, ['LATITUD', 'latitud']));
+      const longitude = safeNumber(getProp(props, ['LONGITUD', 'longitud']));
       detailContent.className = '';
       detailContent.innerHTML = `
         <div class="detail-group">
-          <div class="detail-group-title">Beneficiarios de Subsidio Parcial del Estado</div>
+          <div class="detail-group-title">Proyecto de vivienda del segundo segmento</div>
 
           <div class="detail-item">
-            <span class="detail-label">NOMBRE DE PROYECTO:</span>
-            <span class="detail-value">${formatText(props.PROYECTOS)}</span>
+            <span class="detail-label">NOMBRE DEL PROYECTO:</span>
+            <span class="detail-value">${escapeHTML(formatText(getProp(props, ['NOMBRE DEL PROYECTO'])))}</span>
           </div>
 
           <div class="detail-item">
-            <span class="detail-label">BENEFICIARIOS PENDIENTES DE RECIBIR SUBSIDIO PARCIAL - 2B:</span>
-            <div class="detail-value">
-              <ul style="margin: 6px 0 0 18px; padding: 0;">
-                ${
-                  (props.BENEFICIARIOS || '')
-                    .split(';')
-                    .map(item => item.trim())
-                    .filter(item => item.length > 0)
-                    .map(item => `<li>${item}</li>`)
-                    .join('')
-                }
-              </ul>
-            </div>
+            <span class="detail-label">PROVINCIA:</span>
+            <span class="detail-value">${escapeHTML(formatText(getProp(props, ['PROVINCIA'])))}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">CANTÓN:</span>
+            <span class="detail-value">${escapeHTML(formatText(getProp(props, ['CANTON', 'CANTÓN'])))}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">SECTOR:</span>
+            <span class="detail-value">${escapeHTML(formatText(getProp(props, ['SECTOR'])))}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">LATITUD:</span>
+            <span class="detail-value">${latitude.toFixed(6)}</span>
+          </div>
+
+          <div class="detail-item">
+            <span class="detail-label">LONGITUD:</span>
+            <span class="detail-value">${longitude.toFixed(6)}</span>
           </div>
         </div>
       `;
@@ -2666,7 +2871,17 @@ function parseCSV(text) {
         const code = getProp(f.properties || {}, ['CODIGO BSN', 'codigo_bsn', 'CODIGO_BSN']);
         if (code !== '') values.add(`BSN ${code}`);
       });
-      catalogSearchOptions.innerHTML = [...values].sort((a,b) => a.localeCompare(b,'es')).map(v => `<option value="${v}"></option>`).join('');
+      (segundoSegmentoData?.features || []).forEach(f => {
+        const name = getProp(f.properties || {}, ['NOMBRE DEL PROYECTO']);
+        if (name) values.add(String(name).trim());
+      });
+
+      catalogSearchOptions.replaceChildren();
+      [...values].sort((a,b) => a.localeCompare(b,'es')).forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        catalogSearchOptions.appendChild(option);
+      });
     }
 
     function applyTerritorialSelection(province, canton = '') {
@@ -2677,6 +2892,7 @@ function parseCSV(text) {
       if (province && canton) highlightCanton(province, canton);
       else if (province) highlightProvince(province);
       rebuildBeneficiariosCalificadosLayer();
+      rebuildSegundoSegmentoLayer();
       updateStatusBox();
       updateFilterSummaryBox();
     }
@@ -2702,6 +2918,18 @@ function parseCSV(text) {
         return;
       }
 
+      const projectFeature = (segundoSegmentoData?.features || []).find(f =>
+        normalizeText(getProp(f.properties || {}, ['NOMBRE DEL PROYECTO'])) === q
+      );
+      if (projectFeature) {
+        setLayerToggle(toggleSegundoSegmento, true);
+        const coordinates = projectFeature.geometry?.coordinates || [];
+        if (coordinates.length >= 2) map.setView([coordinates[1], coordinates[0]], 16);
+        showSegundoSegmentoDetails(projectFeature.properties || {});
+        catalogSearch.value = getProp(projectFeature.properties || {}, ['NOMBRE DEL PROYECTO']);
+        return;
+      }
+
       const provinceFeature = (provinciasData?.features || []).find(f => normalizeText(f.properties?.DPA_DESPRO) === q);
       if (provinceFeature) {
         const province = (provinceFeature.properties?.DPA_DESPRO || '').trim();
@@ -2723,6 +2951,16 @@ function parseCSV(text) {
         return;
       }
 
+      const partialProject = (segundoSegmentoData?.features || []).find(f => normalizeText(getProp(f.properties || {}, ['NOMBRE DEL PROYECTO'])).includes(q));
+      if (partialProject) {
+        setLayerToggle(toggleSegundoSegmento, true);
+        const coordinates = partialProject.geometry?.coordinates || [];
+        if (coordinates.length >= 2) map.setView([coordinates[1], coordinates[0]], 16);
+        showSegundoSegmentoDetails(partialProject.properties || {});
+        catalogSearch.value = getProp(partialProject.properties || {}, ['NOMBRE DEL PROYECTO']);
+        return;
+      }
+
       const partialProvince = (provinciasData?.features || []).find(f => normalizeText(f.properties?.DPA_DESPRO).includes(q));
       if (partialProvince) {
         const province = (partialProvince.properties?.DPA_DESPRO || '').trim();
@@ -2739,7 +2977,7 @@ function parseCSV(text) {
         return;
       }
 
-      searchFeedback.textContent = 'No encontramos ese territorio o código BSN. Prueba con otro término.';
+      searchFeedback.textContent = 'No encontramos ese territorio, proyecto o código BSN. Prueba con otro término.';
     }
 
     function setModeButtonActive(mode) {
@@ -2759,38 +2997,37 @@ function parseCSV(text) {
         setLayerToggle(toggleHex1B, true);
         setLayerToggle(toggleBSN, false);
         setLayerToggle(toggleBeneficiariosCalificados, false);
-        setLayerToggle(toggleSubsidio2B, false);
+        setLayerToggle(toggleSegundoSegmento, false);
       } else if (mode === 'suelo') {
         setLayerToggle(toggleHex, false);
         setLayerToggle(toggleHex1B, false);
         setLayerToggle(toggleBSN, true);
         setLayerToggle(toggleBeneficiariosCalificados, false);
-        setLayerToggle(toggleSubsidio2B, false);
-      } else if (mode === 'beneficiarios') {
+        setLayerToggle(toggleSegundoSegmento, false);
+      } else if (mode === 'proyectos') {
         setLayerToggle(toggleHex, false);
         setLayerToggle(toggleHex1B, false);
         setLayerToggle(toggleBSN, false);
-        setLayerToggle(toggleBeneficiariosCalificados, true);
-        setLayerToggle(toggleSubsidio2B, true);
+        setLayerToggle(toggleBeneficiariosCalificados, false);
+        setLayerToggle(toggleSegundoSegmento, true);
       } else {
         setLayerToggle(toggleHex, false);
         setLayerToggle(toggleHex1B, false);
         setLayerToggle(toggleBSN, true);
         setLayerToggle(toggleBeneficiariosCalificados, true);
-        setLayerToggle(toggleSubsidio2B, false);
+        setLayerToggle(toggleSegundoSegmento, true);
       }
       updateCitizenMetrics();
     }
 
     async function initData() {
       try {
-        const [hex, hex1B, bsn, provincias, cantones, subsidio2B, beneficiariosCalificados, conteo, conteo1B] = await Promise.all([
+        const [hex, hex1B, bsn, provincias, cantones, beneficiariosCalificados, conteo, conteo1B] = await Promise.all([
           loadGeoJSON(FILES.hex),
           loadGeoJSON(FILES.hex1B),
           loadGeoJSON(FILES.bsn),
           loadGeoJSON(FILES.provincias),
           loadGeoJSON(FILES.cantones),
-          loadGeoJSON(FILES.subsidio2B),
           loadGeoJSON(FILES.beneficiariosCalificados),
           loadCSV(FILES.conteo),
           loadCSV(FILES.conteo1B)
@@ -2801,7 +3038,6 @@ function parseCSV(text) {
         bsnData = bsn;
         provinciasData = provincias;
         cantonesData = cantones;
-        subsidio2BData = subsidio2B;
         beneficiariosCalificadosData = beneficiariosCalificados;
         conteoData = conteo;
         conteo1BData = conteo1B;
@@ -2813,13 +3049,31 @@ function parseCSV(text) {
         rebuildHexLayer();
         rebuildHex1BLayer();
         rebuildBSNLayer();
-        rebuildSubsidio2BLayer();
+        rebuildSegundoSegmentoLayer();
         rebuildBeneficiariosCalificadosLayer();
         updateStatusBox();
         updateFilterSummaryBox();
         setLegendVisibility();
         populateCatalogSearchOptions();
         updateCitizenMetrics();
+
+        loadSecondSegmentProjects()
+          .then(data => {
+            segundoSegmentoData = data;
+            segundoSegmentoLoadError = '';
+            segundoSegmentoLoading = false;
+            rebuildSegundoSegmentoLayer();
+            populateCatalogSearchOptions();
+            updateStatusBox();
+          })
+          .catch(error => {
+            console.error('Error al cargar proyectos del segundo segmento:', error);
+            segundoSegmentoData = { type: 'FeatureCollection', features: [] };
+            segundoSegmentoLoadError = error.message || 'No se pudo conectar con Google Sheets.';
+            segundoSegmentoLoading = false;
+            rebuildSegundoSegmentoLayer();
+            updateStatusBox();
+          });
       } catch (error) {
         console.error(error);
         detailContent.className = 'detail-empty';
@@ -3043,31 +3297,37 @@ function parseCSV(text) {
       updateStatusBox();
     }
 
-    function rebuildSubsidio2BLayer() {
-      if (subsidio2BLayer) {
-        map.removeLayer(subsidio2BLayer);
+    function rebuildSegundoSegmentoLayer() {
+      if (segundoSegmentoLayer) {
+        map.removeLayer(segundoSegmentoLayer);
       }
 
-      subsidio2BLayer = L.geoJSON(subsidio2BData, {
-        pointToLayer: (feature, latlng) => {
-          return L.circleMarker(latlng, {
-            radius: 7,
-            color: '#005bbb',
-            weight: 1.5,
-            opacity: 1,
-            fillColor: '#3b82f6',
-            fillOpacity: 0.85
-          });
-        },
-        onEachFeature: (feature, layer) => {
-          layer.on('click', () => {
-            showSubsidio2BDetails(feature.properties);
-          });
+      const filteredFeatures = getFilteredSegundoSegmentoFeatures();
+      segundoSegmentoLayer = L.geoJSON(
+        { type: 'FeatureCollection', features: filteredFeatures },
+        {
+          pointToLayer: (feature, latlng) => {
+            return L.circleMarker(latlng, {
+              radius: 6.5,
+              color: '#0f3f91',
+              weight: 1.6,
+              opacity: 1,
+              fillColor: '#2563eb',
+              fillOpacity: 0.9
+            });
+          },
+          onEachFeature: (feature, layer) => {
+            const name = getProp(feature.properties || {}, ['NOMBRE DEL PROYECTO']);
+            if (name) layer.bindTooltip(escapeHTML(name), { direction: 'top', offset: [0, -6] });
+            layer.on('click', () => {
+              showSegundoSegmentoDetails(feature.properties || {});
+            });
+          }
         }
-      });
+      );
 
-      if (toggleSubsidio2B.checked) {
-        subsidio2BLayer.addTo(map);
+      if (toggleSegundoSegmento.checked) {
+        segundoSegmentoLayer.addTo(map);
       }
 
       updateStatusBox();
@@ -3244,12 +3504,12 @@ function parseCSV(text) {
       updateStatusBox();
     });
 
-    toggleSubsidio2B.addEventListener('change', () => {
-      if (!subsidio2BLayer) return;
-      if (toggleSubsidio2B.checked) {
-        subsidio2BLayer.addTo(map);
+    toggleSegundoSegmento.addEventListener('change', () => {
+      if (!segundoSegmentoLayer) return;
+      if (toggleSegundoSegmento.checked) {
+        segundoSegmentoLayer.addTo(map);
       } else {
-        map.removeLayer(subsidio2BLayer);
+        map.removeLayer(segundoSegmentoLayer);
       }
       updateStatusBox();
     });
@@ -3284,6 +3544,7 @@ function parseCSV(text) {
       }
 
       rebuildBeneficiariosCalificadosLayer();
+      rebuildSegundoSegmentoLayer();
       updateStatusBox();
       updateFilterSummaryBox();
     });
@@ -3304,6 +3565,7 @@ function parseCSV(text) {
       }
 
       rebuildBeneficiariosCalificadosLayer();
+      rebuildSegundoSegmentoLayer();
       updateStatusBox();
       updateFilterSummaryBox();
     });
@@ -3317,6 +3579,7 @@ function parseCSV(text) {
       searchFeedback.textContent = '';
       clearSelectionOverlays();
       rebuildBeneficiariosCalificadosLayer();
+      rebuildSegundoSegmentoLayer();
       updateStatusBox();
       updateFilterSummaryBox();
       setDetailEmpty();
