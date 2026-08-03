@@ -1635,113 +1635,288 @@
       font-weight: 750;
     }
 
+
+    /* ===== V7: experiencia guiada para potenciales donantes ===== */
+    #app.guide-active #rightPanel{
+      display:none;
+    }
+    #app.guide-active #metricStrip{
+      display:none;
+    }
+
+    .map-intro-compact{
+      margin-bottom:13px;
+      padding:12px 13px;
+      border:1px solid #dce7f0;
+      border-radius:15px;
+      background:#f7fafc;
+    }
+    .map-intro-compact strong{
+      display:block;
+      color:var(--citizen-ink);
+      font-size:13px;
+      margin-bottom:4px;
+    }
+    .map-intro-compact p{
+      margin:0;
+      color:var(--citizen-muted);
+      font-size:11px;
+      line-height:1.45;
+    }
+
+    .opportunity-mode-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:7px;
+    }
+    .opportunity-mode-grid .view-mode-btn{
+      min-height:64px;
+      padding:10px;
+      text-align:left;
+    }
+    .opportunity-mode-grid .view-mode-btn strong{
+      display:block;
+      font-size:11px;
+      line-height:1.25;
+      color:inherit;
+    }
+    .opportunity-mode-grid .view-mode-btn span{
+      display:block;
+      margin-top:4px;
+      color:var(--citizen-muted);
+      font-size:9px;
+      line-height:1.3;
+      font-weight:600;
+    }
+    .opportunity-mode-grid .view-mode-btn.is-active span{
+      color:#7a4050;
+    }
+
+    .map-options-details{
+      padding:0;
+      overflow:hidden;
+    }
+    .map-options-details > summary{
+      padding:12px 13px;
+      cursor:pointer;
+      color:#344054;
+      font-size:12px;
+      font-weight:800;
+      list-style-position:inside;
+    }
+    .map-options-details[open] > summary{
+      border-bottom:1px solid #eceef2;
+      background:#fafbfc;
+    }
+    .map-options-body{
+      padding:5px 13px 13px;
+    }
+    .map-options-subtitle{
+      margin:11px 0 5px;
+      color:var(--citizen-ink);
+      font-size:11px;
+      font-weight:850;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+    .map-options-body .compact-details{
+      margin-top:9px;
+    }
+    .map-options-status{
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid #eceef2;
+    }
+    .map-options-status .status-box{
+      font-size:11px;
+      line-height:1.45;
+      padding:9px 10px;
+    }
+
+    .guide-intro{
+      margin-bottom:13px;
+      color:var(--citizen-muted);
+      font-size:11px;
+      line-height:1.45;
+    }
+    .guide-route-grid{
+      display:grid;
+      gap:8px;
+    }
+    .guide-route-card{
+      width:100%;
+      display:grid;
+      grid-template-columns:34px 1fr auto;
+      align-items:center;
+      gap:10px;
+      padding:11px;
+      border:1px solid #e4e7ec;
+      border-radius:14px;
+      background:#fff;
+      color:var(--citizen-ink);
+      cursor:pointer;
+      text-align:left;
+      transition:.18s ease;
+    }
+    .guide-route-card:hover{
+      border-color:rgba(122,0,25,.30);
+      background:#fffafb;
+    }
+    .guide-route-icon{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:34px;
+      height:34px;
+      border-radius:11px;
+      background:var(--citizen-accent-soft);
+      color:var(--citizen-accent);
+      font-size:16px;
+      font-weight:850;
+    }
+    .guide-route-copy strong{
+      display:block;
+      font-size:11px;
+      line-height:1.3;
+    }
+    .guide-route-copy span{
+      display:block;
+      margin-top:3px;
+      color:var(--citizen-muted);
+      font-size:9px;
+      line-height:1.35;
+    }
+    .guide-route-arrow{
+      color:var(--citizen-accent);
+      font-size:16px;
+      font-weight:850;
+    }
+
+    .simple-step{
+      display:grid;
+      grid-template-columns:28px 1fr;
+      gap:9px;
+      margin-bottom:11px;
+    }
+    .simple-step:last-child{ margin-bottom:0; }
+    .simple-step-number{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      background:var(--citizen-accent);
+      color:#fff;
+      font-size:11px;
+      font-weight:850;
+    }
+    .simple-step-content strong{
+      display:block;
+      padding-top:2px;
+      color:var(--citizen-ink);
+      font-size:12px;
+    }
+    .simple-step-content p{
+      margin:4px 0 0;
+      color:var(--citizen-muted);
+      font-size:10px;
+      line-height:1.45;
+    }
+
+    .after-submit-details{
+      margin-top:12px;
+      border:1px solid #e5e8ed;
+      border-radius:13px;
+      background:#fff;
+      overflow:hidden;
+    }
+    .after-submit-details > summary{
+      padding:11px 12px;
+      cursor:pointer;
+      color:#344054;
+      font-size:11px;
+      font-weight:800;
+      list-style-position:inside;
+    }
+    .after-submit-details[open] > summary{
+      border-bottom:1px solid #eceef2;
+      background:#fafbfc;
+    }
+    .after-submit-body{
+      padding:12px 12px 0;
+    }
+    .after-submit-body .process-step{
+      padding-bottom:12px;
+    }
+
+    .other-modalities{
+      margin-top:9px;
+      border-top:1px solid #eceef2;
+      padding-top:8px;
+    }
+    .other-modalities summary{
+      cursor:pointer;
+      color:#475467;
+      font-size:10px;
+      font-weight:800;
+    }
+    .other-modalities ul{
+      margin:7px 0 0;
+      padding-left:18px;
+      color:var(--citizen-muted);
+      font-size:9px;
+      line-height:1.5;
+    }
+
+    @media (max-width:420px){
+      .opportunity-mode-grid{ grid-template-columns:1fr; }
+      .guide-route-card{ grid-template-columns:32px 1fr auto; }
+    }
+
   </style>
 </head>
 <body>
-  <div id="app">
+  <div id="app" class="guide-active">
     <aside id="leftPanel">
       <div class="mobile-sheet-handle"></div>
 
       <div class="catalog-tabs" role="tablist" aria-label="Secciones del catálogo">
-        <button type="button" class="catalog-tab is-active" id="catalogMapTab" role="tab" aria-selected="true" aria-controls="catalogMapPanel" data-catalog-panel="catalogMapPanel">Explorar mapa</button>
-        <button type="button" class="catalog-tab" id="catalogIncentiveTab" role="tab" aria-selected="false" aria-controls="catalogIncentivePanel" data-catalog-panel="catalogIncentivePanel">Acceso al incentivo</button>
+        <button type="button" class="catalog-tab is-active" id="catalogIncentiveTab" role="tab" aria-selected="true" aria-controls="catalogIncentivePanel" data-catalog-panel="catalogIncentivePanel">Quiero acceder al incentivo</button>
+        <button type="button" class="catalog-tab" id="catalogMapTab" role="tab" aria-selected="false" aria-controls="catalogMapPanel" data-catalog-panel="catalogMapPanel">Explorar catálogo completo</button>
       </div>
 
-      <section id="catalogMapPanel" class="catalog-panel" role="tabpanel" aria-labelledby="catalogMapTab">
-        <div class="purpose-card">
-          <div class="purpose-icon" aria-hidden="true">⌖</div>
-          <div>
-            <strong>¿Para qué sirve este catálogo?</strong>
-            <p>Permite consultar información pública, georreferenciada y referencial sobre necesidades de vivienda, beneficiarios, proyectos del segundo segmento y suelo público disponible.</p>
-          </div>
-          <div class="purpose-note">La información apoya la planificación, focalización y priorización de la política pública, y orienta a los contribuyentes interesados en acogerse al incentivo tributario.</div>
+      <section id="catalogMapPanel" class="catalog-panel" role="tabpanel" aria-labelledby="catalogMapTab" hidden>
+        <div class="map-intro-compact">
+          <strong>Encuentra una oportunidad en el territorio</strong>
+          <p>Elige qué deseas localizar, filtra por provincia o cantón y haz clic en un punto o zona para conocer sus datos.</p>
         </div>
 
         <div class="section">
-          <div class="section-title">Cómo explorar el catálogo</div>
-          <div class="map-use-steps" aria-label="Pasos para consultar el mapa">
-            <div class="map-use-step"><b>1. Elige</b>Una vista de consulta.</div>
-            <div class="map-use-step"><b>2. Filtra</b>Provincia o cantón.</div>
-            <div class="map-use-step"><b>3. Consulta</b>Haz clic en el mapa.</div>
+          <div class="section-title">¿Qué deseas localizar?</div>
+          <div class="opportunity-mode-grid" aria-label="Opciones principales del catálogo">
+            <button type="button" class="view-mode-btn is-active" data-mode="beneficiarios">
+              <strong>Hogares calificados para vivienda 1A</strong>
+              <span>Personas que necesitan vivienda y ya fueron calificadas.</span>
+            </button>
+            <button type="button" class="view-mode-btn" data-mode="suelo">
+              <strong>Predios públicos para vivienda</strong>
+              <span>Suelo del Estado con potencial para soluciones habitacionales.</span>
+            </button>
+            <button type="button" class="view-mode-btn" data-mode="proyectos">
+              <strong>Proyectos VIS con subsidio parcial</strong>
+              <span>Proyectos del segundo segmento en los que aplica el subsidio.</span>
+            </button>
+            <button type="button" class="view-mode-btn" data-mode="necesidad">
+              <strong>Necesidades por territorio</strong>
+              <span>Zonas donde se concentra la necesidad de vivienda.</span>
+            </button>
           </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">¿Qué quieres consultar?</div>
-          <div class="section-hint">Selecciona una vista rápida. Luego puedes activar o desactivar capas individualmente.</div>
-          <div class="mode-grid" aria-label="Vistas rápidas del catálogo">
-            <button type="button" class="view-mode-btn is-active" data-mode="general">Vista general</button>
-            <button type="button" class="view-mode-btn" data-mode="necesidad">Necesidad de vivienda</button>
-            <button type="button" class="view-mode-btn" data-mode="suelo">Suelo disponible</button>
-            <button type="button" class="view-mode-btn" data-mode="proyectos">Proyectos segundo segmento</button>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Información en el mapa</div>
-
-          <div class="layer-card">
-            <div class="check-row">
-              <input type="checkbox" id="toggleBeneficiariosCalificados" checked>
-              <label for="toggleBeneficiariosCalificados"><span class="layer-symbol dot dot-benef" aria-hidden="true"></span>Beneficiarios calificados</label>
-            </div>
-            <div class="layer-explainer">Personas u hogares que han cumplido el proceso de calificación correspondiente.</div>
-            <div id="beneficiariosCalificadosCount" class="layer-count">Beneficiarios visibles: 0</div>
-          </div>
-
-          <div class="layer-card">
-            <div class="check-row">
-              <input type="checkbox" id="toggleHex">
-              <label for="toggleHex"><span class="layer-symbol hex hex-own" aria-hidden="true"></span>Necesidad de vivienda en terreno propio</label>
-            </div>
-            <div class="layer-explainer">Concentración territorial de hogares que cuentan con terreno y requieren una solución habitacional.</div>
-          </div>
-
-          <div class="layer-card">
-            <div class="check-row">
-              <input type="checkbox" id="toggleHex1B">
-              <label for="toggleHex1B"><span class="layer-symbol hex hex-state" aria-hidden="true"></span>Necesidad en terrenos urbanizados por el Estado</label>
-            </div>
-            <div class="layer-explainer">Concentración de hogares con necesidad de vivienda vinculada a suelo urbanizado por el Estado.</div>
-          </div>
-
-          <div class="layer-card">
-            <div class="check-row">
-              <input type="checkbox" id="toggleBSN" checked>
-              <label for="toggleBSN"><span class="layer-symbol bsn" aria-hidden="true"></span>Predios del Banco de Suelo Nacional</label>
-            </div>
-            <div class="layer-explainer">Predios identificados con potencial para soluciones de vivienda de interés social.</div>
-          </div>
-
-          <div class="layer-card">
-            <div class="check-row">
-              <input type="checkbox" id="toggleSegundoSegmento" checked>
-              <label for="toggleSegundoSegmento"><span class="layer-symbol dot dot-project" aria-hidden="true"></span>Proyectos de vivienda del segundo segmento</label>
-            </div>
-            <div class="layer-explainer">Proyectos de vivienda de interés social en los cuales aplica el subsidio parcial del Estado.</div>
-            <div id="segundoSegmentoCount" class="layer-count">Cargando proyectos…</div>
-          </div>
-
-          <details class="compact-details">
-            <summary>Información territorial de referencia</summary>
-            <div class="layer-card">
-              <div class="check-row">
-                <input type="checkbox" id="toggleProvLayer">
-                <label for="toggleProvLayer"><span class="layer-symbol line-prov" aria-hidden="true"></span>Límites provinciales</label>
-              </div>
-            </div>
-            <div class="layer-card">
-              <div class="check-row">
-                <input type="checkbox" id="toggleCantLayer">
-                <label for="toggleCantLayer"><span class="layer-symbol line-cant" aria-hidden="true"></span>Límites cantonales</label>
-              </div>
-            </div>
-          </details>
         </div>
 
         <div class="section territorial-section">
-          <div class="section-title">Consulta territorial</div>
-          <div class="section-hint">Elige una provincia y, si deseas, un cantón para obtener una radiografía del territorio.</div>
+          <div class="section-title">¿Dónde deseas consultar?</div>
+          <div class="section-hint">Selecciona una provincia y, si lo necesitas, un cantón.</div>
 
           <div class="field">
             <label for="provinciaSelect">Provincia</label>
@@ -1756,35 +1931,101 @@
           <button class="btn" id="btnLimpiarFiltros">Ver todo el país</button>
         </div>
 
-        <details class="section compact-details density-section">
-          <summary>Opciones avanzadas de densidad</summary>
-          <div class="section-hint" style="margin-top:10px;">Filtra las zonas según el número de hogares concentrados.</div>
-          <div class="range-grid">
-            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r1" value="5-20" checked><label for="r1">5 - 20</label></div>
-            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r2" value="20-50" checked><label for="r2">20 - 50</label></div>
-            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r3" value="50-100" checked><label for="r3">50 - 100</label></div>
-            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r4" value="100-200" checked><label for="r4">100 - 200</label></div>
-            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r5" value="200-500" checked><label for="r5">200 - 500</label></div>
-            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r6" value="500+" checked><label for="r6">&gt; 500</label></div>
-          </div>
-          <div class="field" style="margin-top:10px;">
-            <label for="hexOpacity">Transparencia de las zonas</label>
-            <input type="range" id="hexOpacity" min="0" max="100" step="5" value="80">
-            <div class="transparency-value">Opacidad actual: <span id="hexOpacityValue">80%</span></div>
+        <details class="section map-options-details">
+          <summary>Más opciones del mapa</summary>
+          <div class="map-options-body">
+            <div class="map-options-subtitle">Capas disponibles</div>
+
+            <div class="layer-card">
+              <div class="check-row">
+                <input type="checkbox" id="toggleBeneficiariosCalificados" checked>
+                <label for="toggleBeneficiariosCalificados"><span class="layer-symbol dot dot-benef" aria-hidden="true"></span>Hogares calificados para vivienda 1A</label>
+              </div>
+              <div class="layer-explainer">Personas que necesitan una vivienda en terreno propio y ya fueron calificadas por el ente rector.</div>
+              <div id="beneficiariosCalificadosCount" class="layer-count">Hogares visibles: 0</div>
+            </div>
+
+            <div class="layer-card">
+              <div class="check-row">
+                <input type="checkbox" id="toggleHex">
+                <label for="toggleHex"><span class="layer-symbol hex hex-own" aria-hidden="true"></span>Zonas con necesidad de vivienda en terreno propio</label>
+              </div>
+              <div class="layer-explainer">Concentración territorial de hogares que cuentan con terreno y requieren una solución habitacional.</div>
+            </div>
+
+            <div class="layer-card">
+              <div class="check-row">
+                <input type="checkbox" id="toggleHex1B">
+                <label for="toggleHex1B"><span class="layer-symbol hex hex-state" aria-hidden="true"></span>Zonas con necesidad en suelo urbanizado por el Estado</label>
+              </div>
+              <div class="layer-explainer">Concentración de hogares vinculada a terrenos urbanizados por el Estado.</div>
+            </div>
+
+            <div class="layer-card">
+              <div class="check-row">
+                <input type="checkbox" id="toggleBSN">
+                <label for="toggleBSN"><span class="layer-symbol bsn" aria-hidden="true"></span>Predios públicos disponibles para vivienda</label>
+              </div>
+              <div class="layer-explainer">Predios del Banco de Suelo Nacional con potencial para soluciones de vivienda de interés social.</div>
+            </div>
+
+            <div class="layer-card">
+              <div class="check-row">
+                <input type="checkbox" id="toggleSegundoSegmento">
+                <label for="toggleSegundoSegmento"><span class="layer-symbol dot dot-project" aria-hidden="true"></span>Proyectos VIS con subsidio parcial</label>
+              </div>
+              <div class="layer-explainer">Proyectos de vivienda de interés social en los cuales aplica el subsidio parcial del Estado.</div>
+              <div id="segundoSegmentoCount" class="layer-count">Cargando proyectos…</div>
+            </div>
+
+            <details class="compact-details">
+              <summary>Información territorial de referencia</summary>
+              <div class="layer-card">
+                <div class="check-row">
+                  <input type="checkbox" id="toggleProvLayer">
+                  <label for="toggleProvLayer"><span class="layer-symbol line-prov" aria-hidden="true"></span>Límites provinciales</label>
+                </div>
+              </div>
+              <div class="layer-card">
+                <div class="check-row">
+                  <input type="checkbox" id="toggleCantLayer">
+                  <label for="toggleCantLayer"><span class="layer-symbol line-cant" aria-hidden="true"></span>Límites cantonales</label>
+                </div>
+              </div>
+            </details>
+
+            <details class="compact-details density-section">
+              <summary>Opciones de densidad y transparencia</summary>
+              <div class="section-hint" style="margin-top:10px;">Estas opciones se aplican a las zonas de necesidad.</div>
+              <div class="range-grid">
+                <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r1" value="5-20" checked><label for="r1">5 - 20</label></div>
+                <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r2" value="20-50" checked><label for="r2">20 - 50</label></div>
+                <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r3" value="50-100" checked><label for="r3">50 - 100</label></div>
+                <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r4" value="100-200" checked><label for="r4">100 - 200</label></div>
+                <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r5" value="200-500" checked><label for="r5">200 - 500</label></div>
+                <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r6" value="500+" checked><label for="r6">&gt; 500</label></div>
+              </div>
+              <div class="field" style="margin-top:10px;">
+                <label for="hexOpacity">Transparencia de las zonas</label>
+                <input type="range" id="hexOpacity" min="0" max="100" step="5" value="80">
+                <div class="transparency-value">Opacidad actual: <span id="hexOpacityValue">80%</span></div>
+              </div>
+            </details>
+
+            <div class="map-options-status">
+              <div class="map-options-subtitle">Resumen técnico</div>
+              <div class="status-box" id="statusBox">
+                <div><strong>Zonas visibles:</strong> 0</div>
+                <div><strong>Predios públicos visibles:</strong> 0</div>
+                <div><strong>Hogares calificados visibles:</strong> 0</div>
+                <div><strong>Proyectos VIS visibles:</strong> 0</div>
+              </div>
+            </div>
           </div>
         </details>
-
-        <div class="section active-layers-section">
-          <div class="section-title">Capas activas</div>
-          <div class="status-box" id="statusBox">
-            <div><strong>Zonas visibles:</strong> 0</div>
-            <div><strong>Predios BSN visibles:</strong> 0</div>
-            <div><strong>Beneficiarios visibles:</strong> 0</div>
-          </div>
-        </div>
       </section>
 
-      <section id="catalogIncentivePanel" class="catalog-panel" role="tabpanel" aria-labelledby="catalogIncentiveTab" hidden>
+      <section id="catalogIncentivePanel" class="catalog-panel" role="tabpanel" aria-labelledby="catalogIncentiveTab">
         <div class="incentive-hero">
           <span class="incentive-kicker">Incentivo tributario para vivienda de interés social</span>
           <strong>Rebaja equivalente al 100% del valor efectivamente donado</strong>
@@ -1792,93 +2033,132 @@
         </div>
 
         <div class="section">
-          <div class="section-title">1. Identifica el segmento de donación</div>
-          <div class="segment-grid">
-            <article class="segment-card">
-              <span class="segment-badge">Segmento 1</span>
-              <strong>Donación de vivienda de interés social</strong>
-              <p>La vivienda cubre la totalidad del subsidio estatal.</p>
-              <ul class="segment-options">
-                <li>Terreno del beneficiario.</li>
-                <li>Terreno de propiedad del Estado.</li>
-                <li>Vivienda con terreno del contribuyente.</li>
-                <li>Vivienda con terreno del promotor o constructor.</li>
-              </ul>
-            </article>
-            <article class="segment-card">
-              <span class="segment-badge">Segmento 2</span>
-              <strong>Donación de recursos económicos</strong>
-              <p>Los valores se destinan a cubrir el subsidio parcial del Estado para financiar vivienda de interés social.</p>
-            </article>
+          <div class="section-title">Accede en tres pasos</div>
+          <p class="guide-intro">Primero identifica cómo deseas aportar. El catálogo abrirá únicamente la información del mapa que corresponde a tu modalidad.</p>
+
+          <div class="simple-step">
+            <span class="simple-step-number">1</span>
+            <div class="simple-step-content">
+              <strong>Elige cómo deseas aportar</strong>
+              <p>Selecciona una de las opciones para consultar las oportunidades relacionadas.</p>
+            </div>
           </div>
+
+          <div class="guide-route-grid">
+            <button type="button" class="guide-route-card" data-guide-mode="beneficiarios">
+              <span class="guide-route-icon" aria-hidden="true">⌂</span>
+              <span class="guide-route-copy">
+                <strong>Construir vivienda para hogares calificados</strong>
+                <span>Segmento 1A: personas que necesitan vivienda en terreno propio y ya fueron calificadas por el ente rector.</span>
+              </span>
+              <span class="guide-route-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <button type="button" class="guide-route-card" data-guide-mode="suelo">
+              <span class="guide-route-icon" aria-hidden="true">▱</span>
+              <span class="guide-route-copy">
+                <strong>Construir vivienda en un predio público</strong>
+                <span>Segmento 1: consulta los predios del Banco de Suelo Nacional disponibles para vivienda.</span>
+              </span>
+              <span class="guide-route-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <button type="button" class="guide-route-card" data-guide-mode="proyectos">
+              <span class="guide-route-icon" aria-hidden="true">$</span>
+              <span class="guide-route-copy">
+                <strong>Aportar recursos para el subsidio parcial</strong>
+                <span>Segmento 2: consulta los proyectos VIS en los cuales aplica el subsidio parcial del Estado.</span>
+              </span>
+              <span class="guide-route-arrow" aria-hidden="true">›</span>
+            </button>
+          </div>
+
+          <details class="other-modalities">
+            <summary>Otras modalidades de donación de vivienda del Segmento 1</summary>
+            <ul>
+              <li>Vivienda con terreno incluido en predio del contribuyente.</li>
+              <li>Vivienda con terreno incluido en predio del promotor o constructor.</li>
+            </ul>
+          </details>
         </div>
 
         <div class="section">
-          <div class="section-title">2. Sigue la ruta de acceso</div>
-          <ol class="process-list">
-            <li class="process-step">
-              <span class="process-number">1</span>
-              <div class="process-content">
-                <strong>Manifestación de interés</strong>
-                <p>Consulta el catálogo, selecciona el segmento y referencia el territorio, proyecto, beneficiario o código BSN que corresponda. Después descarga, completa y firma el formulario y el oficio.</p>
-                <div class="process-actions">
-                  <a class="download-link" href="Formato%20manifestacion%20de%20interes.docx" download>
-                    <span class="download-icon" aria-hidden="true">↓</span>
-                    <span>Descargar formulario de manifestación de interés</span>
-                  </a>
-                  <a class="download-link" href="Formato%20oficio.docx" download>
-                    <span class="download-icon" aria-hidden="true">↓</span>
-                    <span>Descargar formato de oficio</span>
-                  </a>
-                </div>
-              </div>
-            </li>
-            <li class="process-step">
-              <span class="process-number">2</span>
-              <div class="process-content">
-                <strong>Validación institucional</strong>
-                <p>El ente rector verificará la identidad del donante, la correspondencia con vivienda de interés social y la disponibilidad para aplicar el beneficio tributario.</p>
-                <span class="process-term">Término transitorio: 10 días hábiles</span>
-              </div>
-            </li>
-            <li class="process-step">
-              <span class="process-number">3</span>
-              <div class="process-content">
-                <strong>Suscripción del convenio</strong>
-                <p>Una vez aceptada la elegibilidad y verificados los requisitos, el donante y el ente rector suscribirán el convenio de donación.</p>
-                <span class="process-term">Término transitorio: 10 días hábiles desde la aceptación</span>
-              </div>
-            </li>
-            <li class="process-step">
-              <span class="process-number">4</span>
-              <div class="process-content">
-                <strong>Ejecución de la donación</strong>
-                <p>El donante construirá o transferirá las viviendas del Segmento 1, o transferirá los recursos económicos correspondientes al Segmento 2.</p>
-              </div>
-            </li>
-            <li class="process-step">
-              <span class="process-number">5</span>
-              <div class="process-content">
-                <strong>Perfeccionamiento y certificación</strong>
-                <p>La donación se perfecciona mediante el acta o la transferencia correspondiente, según el segmento y la modalidad. Posteriormente se emite la certificación habilitante para aplicar la rebaja tributaria.</p>
-              </div>
-            </li>
-          </ol>
+          <div class="simple-step">
+            <span class="simple-step-number">2</span>
+            <div class="simple-step-content">
+              <strong>Descarga y completa los documentos</strong>
+              <p>Indica el segmento, la modalidad y la referencia territorial, proyecto, hogar calificado o código del predio que corresponda.</p>
+            </div>
+          </div>
+
+          <div class="process-actions">
+            <a class="download-link" href="Formato%20manifestacion%20de%20interes.docx" download>
+              <span class="download-icon" aria-hidden="true">↓</span>
+              <span>Descargar formulario de manifestación de interés</span>
+            </a>
+            <a class="download-link" href="Formato%20oficio.docx" download>
+              <span class="download-icon" aria-hidden="true">↓</span>
+              <span>Descargar formato de oficio</span>
+            </a>
+          </div>
         </div>
 
         <div class="submission-card">
-          <strong>Envía la manifestación de interés</strong>
-          <p>Adjunta el formulario de manifestación de interés y el formato de oficio completos. Mientras se habilita la ventanilla digital, remítelos al correo:</p>
-          <span class="email-address">tramites@mit.gob.ec</span>
+          <div class="simple-step" style="margin-bottom:0;">
+            <span class="simple-step-number">3</span>
+            <div class="simple-step-content">
+              <strong>Envía la manifestación de interés</strong>
+              <p>Adjunta el formulario y el oficio completos y firmados. Mientras se habilita la ventanilla digital, remítelos al correo:</p>
+              <span class="email-address">tramites@mit.gob.ec</span>
+            </div>
+          </div>
         </div>
 
+        <details class="after-submit-details">
+          <summary>¿Qué ocurre después de enviar la manifestación?</summary>
+          <div class="after-submit-body">
+            <ol class="process-list">
+              <li class="process-step">
+                <span class="process-number">1</span>
+                <div class="process-content">
+                  <strong>Validación institucional</strong>
+                  <p>El ente rector verificará la identidad del donante, la correspondencia con vivienda de interés social y la disponibilidad para aplicar el beneficio.</p>
+                  <span class="process-term">Término transitorio: 10 días hábiles</span>
+                </div>
+              </li>
+              <li class="process-step">
+                <span class="process-number">2</span>
+                <div class="process-content">
+                  <strong>Suscripción del convenio</strong>
+                  <p>Una vez aceptada la elegibilidad y verificados los requisitos, se suscribirá el convenio de donación.</p>
+                  <span class="process-term">10 días hábiles desde la aceptación</span>
+                </div>
+              </li>
+              <li class="process-step">
+                <span class="process-number">3</span>
+                <div class="process-content">
+                  <strong>Ejecución de la donación</strong>
+                  <p>Se construyen o transfieren las viviendas del Segmento 1, o se transfieren los recursos del Segmento 2.</p>
+                </div>
+              </li>
+              <li class="process-step">
+                <span class="process-number">4</span>
+                <div class="process-content">
+                  <strong>Perfeccionamiento y certificación</strong>
+                  <p>La donación se formaliza según la modalidad y se emite la certificación habilitante para aplicar la rebaja tributaria.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </details>
+
         <div class="legal-note">
-          <strong>Importante:</strong> la presentación de la manifestación de interés no constituye aceptación automática, no genera un derecho adquirido ni reserva por sí sola el cupo fiscal. La información del catálogo es referencial y deberá ser validada dentro del procedimiento aplicable.
+          <strong>Importante:</strong> presentar la manifestación de interés no implica aceptación automática, no genera un derecho adquirido ni reserva por sí sola el cupo fiscal. La información del catálogo es referencial y será validada dentro del procedimiento.
         </div>
 
         <div class="source-text">
           <strong>Base normativa:</strong> Reglamento Especial para la Aplicación del Régimen de Incentivos Tributarios para Vivienda de Interés Social.<br>
-          <strong>Fuente institucional:</strong> Viceministerio de Desarrollo Urbano Sostenible y Vivienda. Los proyectos del segundo segmento se consultan en tiempo real desde la matriz pública de Google Sheets.
+          <strong>Fuente institucional:</strong> Viceministerio de Desarrollo Urbano Sostenible y Vivienda. Los proyectos del segundo segmento se consultan desde la matriz pública de Google Sheets.
         </div>
       </section>
     </aside>
@@ -1902,8 +2182,8 @@
         <div id="metricStrip" aria-label="Resumen del catálogo">
           <div class="map-metric"><span class="map-metric-label">Necesidad en terreno propio</span><strong class="map-metric-value" id="metricTerrenoPropio">0</strong><span class="map-metric-sub">hogares</span></div>
           <div class="map-metric"><span class="map-metric-label">Necesidad en suelo urbanizado</span><strong class="map-metric-value" id="metricTerrenoUrbanizado">0</strong><span class="map-metric-sub">hogares</span></div>
-          <div class="map-metric"><span class="map-metric-label">Beneficiarios calificados</span><strong class="map-metric-value" id="metricBeneficiarios">0</strong><span class="map-metric-sub">registros visibles</span></div>
-          <div class="map-metric"><span class="map-metric-label">Predios BSN</span><strong class="map-metric-value" id="metricBSN">0</strong><span class="map-metric-sub" id="metricBSNSub">predios</span></div>
+          <div class="map-metric"><span class="map-metric-label">Hogares calificados 1A</span><strong class="map-metric-value" id="metricBeneficiarios">0</strong><span class="map-metric-sub">registros visibles</span></div>
+          <div class="map-metric"><span class="map-metric-label">Predios públicos</span><strong class="map-metric-value" id="metricBSN">0</strong><span class="map-metric-sub" id="metricBSNSub">predios</span></div>
         </div>
       </div>
       <div class="mobile-backdrop" id="mobileBackdrop"></div>
@@ -2605,8 +2885,8 @@ function parseCSV(text) {
         <div class="summary-mini-grid">
           <div class="summary-mini"><span>Necesidad en terreno propio</span><strong>${formatNumber(totalTerrenoPropio)}</strong></div>
           <div class="summary-mini"><span>Necesidad en suelo urbanizado</span><strong>${formatNumber(totalTerrenoUrbanizado)}</strong></div>
-          <div class="summary-mini"><span>Beneficiarios calificados</span><strong>${formatNumber(totalBeneficiarios)}</strong></div>
-          <div class="summary-mini"><span>Predios BSN</span><strong>${formatNumber(bsnStats.predios)}</strong></div>
+          <div class="summary-mini"><span>Hogares calificados 1A</span><strong>${formatNumber(totalBeneficiarios)}</strong></div>
+          <div class="summary-mini"><span>Predios públicos</span><strong>${formatNumber(bsnStats.predios)}</strong></div>
           <div class="summary-mini"><span>VIS unifamiliares potenciales</span><strong>${formatNumber(bsnStats.unif)}</strong></div>
           <div class="summary-mini"><span>VIS multifamiliares potenciales</span><strong>${formatNumber(bsnStats.mult)}</strong></div>
         </div>
@@ -2629,7 +2909,7 @@ function parseCSV(text) {
       const totalBeneficiariosCalificados = toggleBeneficiariosCalificados.checked ? getFilteredBeneficiariosCalificadosFeatures().length : 0;
       const totalSegundoSegmento = toggleSegundoSegmento.checked ? getFilteredSegundoSegmentoFeatures().length : 0;
 
-      beneficiariosCalificadosCount.textContent = `Beneficiarios visibles: ${formatNumber(totalBeneficiariosCalificados)}`;
+      beneficiariosCalificadosCount.textContent = `Hogares visibles: ${formatNumber(totalBeneficiariosCalificados)}`;
       segundoSegmentoCount.textContent = segundoSegmentoLoading
         ? 'Cargando proyectos…'
         : (segundoSegmentoLoadError
@@ -2638,9 +2918,9 @@ function parseCSV(text) {
 
       statusBox.innerHTML = `
         <div><strong>Zonas visibles:</strong> ${formatNumber(totalHex)}</div>
-        <div><strong>Predios BSN visibles:</strong> ${formatNumber(totalBsn)}</div>
-        <div><strong>Beneficiarios calificados visibles:</strong> ${formatNumber(totalBeneficiariosCalificados)}</div>
-        <div><strong>Proyectos del segundo segmento visibles:</strong> ${formatNumber(totalSegundoSegmento)}</div>
+        <div><strong>Predios públicos visibles:</strong> ${formatNumber(totalBsn)}</div>
+        <div><strong>Hogares calificados visibles:</strong> ${formatNumber(totalBeneficiariosCalificados)}</div>
+        <div><strong>Proyectos VIS visibles:</strong> ${formatNumber(totalSegundoSegmento)}</div>
         <div><strong>Provincia:</strong> ${province}</div>
         <div><strong>Cantón:</strong> ${canton}</div>
         <div><strong>Rangos visibles:</strong> ${rangesLabel}</div>
@@ -2767,7 +3047,7 @@ function parseCSV(text) {
       detailContent.className = '';
       detailContent.innerHTML = `
         <div class="detail-group">
-          <div class="detail-group-title">Beneficiario calificado</div>
+          <div class="detail-group-title">Hogar calificado para vivienda 1A</div>
           ${fields.map(([label, value]) => `
             <div class="detail-item">
               <span class="detail-label">${label}:</span>
@@ -2785,7 +3065,7 @@ function parseCSV(text) {
       detailContent.className = '';
       detailContent.innerHTML = `
         <div class="detail-group">
-          <div class="detail-group-title">Proyecto de vivienda del segundo segmento</div>
+          <div class="detail-group-title">Proyecto VIS con subsidio parcial</div>
 
           <div class="detail-item">
             <span class="detail-label">NOMBRE DEL PROYECTO:</span>
@@ -2992,7 +3272,13 @@ function parseCSV(text) {
 
     function applyViewMode(mode) {
       setModeButtonActive(mode);
-      if (mode === 'necesidad') {
+      if (mode === 'beneficiarios') {
+        setLayerToggle(toggleHex, false);
+        setLayerToggle(toggleHex1B, false);
+        setLayerToggle(toggleBSN, false);
+        setLayerToggle(toggleBeneficiariosCalificados, true);
+        setLayerToggle(toggleSegundoSegmento, false);
+      } else if (mode === 'necesidad') {
         setLayerToggle(toggleHex, true);
         setLayerToggle(toggleHex1B, true);
         setLayerToggle(toggleBSN, false);
@@ -3621,11 +3907,23 @@ function parseCSV(text) {
         button.setAttribute('aria-selected', String(active));
       });
 
+      const guideActive = panelId === 'catalogIncentivePanel';
+      document.getElementById('app').classList.toggle('guide-active', guideActive);
       leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => map.invalidateSize(), 220);
     }
 
     catalogTabButtons.forEach(button => {
       button.addEventListener('click', () => activateCatalogPanel(button.dataset.catalogPanel));
+    });
+
+    const guideRouteButtons = Array.from(document.querySelectorAll('[data-guide-mode]'));
+    guideRouteButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        activateCatalogPanel('catalogMapPanel');
+        applyViewMode(button.dataset.guideMode);
+        setTimeout(() => map.invalidateSize(), 260);
+      });
     });
 
 
@@ -3634,3 +3932,4 @@ function parseCSV(text) {
   </script>
 </body>
 </html>
+
