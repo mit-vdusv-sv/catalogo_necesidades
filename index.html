@@ -1198,6 +1198,366 @@
       .detail-stat-value{ font-size: 16px; }
     }
 
+
+    /* ===== V3: catálogo + guía de acceso al incentivo ===== */
+    :root{
+      --guide-green:#176b51;
+      --guide-green-soft:#edf7f3;
+      --guide-blue:#225b8f;
+      --guide-blue-soft:#eef5fb;
+      --guide-amber:#8a5a00;
+      --guide-amber-soft:#fff7e6;
+    }
+
+    #leftPanel{
+      width: 400px;
+      min-width: 400px;
+      max-width: 400px;
+      padding: 14px 14px 20px;
+    }
+
+    .catalog-tabs{
+      position: sticky;
+      top: -14px;
+      z-index: 8;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin: -14px -14px 14px;
+      padding: 12px 14px 10px;
+      background: rgba(255,255,255,.97);
+      border-bottom: 1px solid var(--citizen-line);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .catalog-tab{
+      border: 1px solid var(--citizen-line);
+      border-radius: 12px;
+      min-height: 42px;
+      padding: 8px 10px;
+      background: #fff;
+      color: #475467;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .catalog-tab:hover{ background:#f8f9fb; }
+    .catalog-tab.is-active{
+      border-color: rgba(122,0,25,.30);
+      background: var(--citizen-accent-soft);
+      color: var(--citizen-accent);
+    }
+    .catalog-panel[hidden]{ display:none !important; }
+
+    .purpose-card{
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 10px;
+      margin-bottom: 13px;
+      padding: 12px;
+      border: 1px solid #dce7f0;
+      border-radius: 15px;
+      background: #f7fafc;
+    }
+    .purpose-icon{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      background:var(--guide-blue-soft);
+      color:var(--guide-blue);
+      font-size:18px;
+    }
+    .purpose-card strong{
+      display:block;
+      color:var(--citizen-ink);
+      font-size:13px;
+      margin-bottom:4px;
+    }
+    .purpose-card p{
+      margin:0;
+      color:var(--citizen-muted);
+      font-size:11px;
+      line-height:1.45;
+    }
+    .purpose-note{
+      grid-column: 1 / -1;
+      margin-top: 1px;
+      padding-top: 9px;
+      border-top: 1px solid #e3ebf1;
+      color:#526173;
+      font-size:10px;
+      line-height:1.4;
+    }
+
+    .map-use-steps{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:6px;
+      margin-top:8px;
+    }
+    .map-use-step{
+      padding:8px 7px;
+      border:1px solid #eceef2;
+      border-radius:11px;
+      background:#fafbfc;
+      color:#475467;
+      font-size:10px;
+      line-height:1.3;
+    }
+    .map-use-step b{
+      display:block;
+      margin-bottom:3px;
+      color:var(--citizen-accent);
+      font-size:11px;
+    }
+
+    .incentive-hero{
+      position:relative;
+      overflow:hidden;
+      margin-bottom:13px;
+      padding:15px;
+      border:1px solid rgba(23,107,81,.18);
+      border-radius:17px;
+      background:var(--guide-green-soft);
+    }
+    .incentive-hero::after{
+      content:'%';
+      position:absolute;
+      right:10px;
+      top:-14px;
+      font-size:84px;
+      line-height:1;
+      font-weight:900;
+      color:rgba(23,107,81,.08);
+      pointer-events:none;
+    }
+    .incentive-kicker{
+      position:relative;
+      z-index:1;
+      display:block;
+      margin-bottom:5px;
+      color:var(--guide-green);
+      font-size:10px;
+      font-weight:850;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .incentive-hero strong{
+      position:relative;
+      z-index:1;
+      display:block;
+      max-width:285px;
+      color:#173c31;
+      font-size:18px;
+      line-height:1.17;
+      letter-spacing:-.02em;
+    }
+    .incentive-hero p{
+      position:relative;
+      z-index:1;
+      max-width:310px;
+      margin:7px 0 0;
+      color:#41675a;
+      font-size:11px;
+      line-height:1.45;
+    }
+
+    .segment-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+    .segment-card{
+      padding:11px;
+      border:1px solid #e5e8ed;
+      border-radius:13px;
+      background:#fff;
+    }
+    .segment-badge{
+      display:inline-flex;
+      align-items:center;
+      min-height:22px;
+      padding:0 8px;
+      border-radius:999px;
+      background:var(--citizen-accent-soft);
+      color:var(--citizen-accent);
+      font-size:10px;
+      font-weight:850;
+    }
+    .segment-card strong{
+      display:block;
+      margin-top:7px;
+      color:var(--citizen-ink);
+      font-size:12px;
+      line-height:1.3;
+    }
+    .segment-card p{
+      margin:5px 0 0;
+      color:var(--citizen-muted);
+      font-size:10px;
+      line-height:1.4;
+    }
+    .segment-options{
+      margin:7px 0 0;
+      padding-left:15px;
+      color:#526173;
+      font-size:9px;
+      line-height:1.45;
+    }
+
+    .process-list{
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    .process-step{
+      position:relative;
+      display:grid;
+      grid-template-columns:30px 1fr;
+      gap:10px;
+      padding:0 0 15px;
+    }
+    .process-step:not(:last-child)::before{
+      content:'';
+      position:absolute;
+      left:14px;
+      top:30px;
+      bottom:2px;
+      width:2px;
+      background:#e4e7ec;
+    }
+    .process-number{
+      position:relative;
+      z-index:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:30px;
+      height:30px;
+      border-radius:999px;
+      background:var(--citizen-accent);
+      color:#fff;
+      font-size:12px;
+      font-weight:850;
+    }
+    .process-content strong{
+      display:block;
+      padding-top:2px;
+      color:var(--citizen-ink);
+      font-size:12px;
+      line-height:1.3;
+    }
+    .process-content p{
+      margin:4px 0 0;
+      color:var(--citizen-muted);
+      font-size:10px;
+      line-height:1.45;
+    }
+    .process-actions{
+      display:grid;
+      gap:7px;
+      margin-top:9px;
+    }
+
+    .submission-card{
+      padding:12px;
+      border:1px solid rgba(34,91,143,.18);
+      border-radius:14px;
+      background:var(--guide-blue-soft);
+    }
+    .submission-card strong{
+      display:block;
+      color:#173c60;
+      font-size:12px;
+    }
+    .submission-card p{
+      margin:5px 0 9px;
+      color:#476981;
+      font-size:10px;
+      line-height:1.45;
+    }
+    .email-address{
+      display:block;
+      margin-bottom:8px;
+      color:#173c60;
+      font-size:13px;
+      font-weight:850;
+      word-break:break-all;
+    }
+    .email-link{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      min-height:40px;
+      box-sizing:border-box;
+      border-radius:11px;
+      background:var(--guide-blue);
+      color:#fff;
+      text-decoration:none;
+      font-size:12px;
+      font-weight:850;
+    }
+    .email-link:hover{ filter:brightness(.96); }
+
+    .legal-note{
+      margin-top:10px;
+      padding:10px;
+      border:1px solid #f1dfb8;
+      border-radius:12px;
+      background:var(--guide-amber-soft);
+      color:#72500c;
+      font-size:10px;
+      line-height:1.45;
+    }
+    .legal-note strong{ color:#684600; }
+
+    .process-term{
+      display:inline-block;
+      margin-top:5px;
+      padding:3px 6px;
+      border-radius:999px;
+      background:#f2f4f7;
+      color:#475467;
+      font-size:9px;
+      font-weight:800;
+    }
+
+    @media (max-width:1280px){
+      #leftPanel{
+        width:350px;
+        min-width:350px;
+        max-width:350px;
+      }
+      .segment-grid{ grid-template-columns:1fr; }
+    }
+
+    @media (max-width:900px){
+      #leftPanel{
+        width:100%;
+        min-width:100%;
+        max-width:100%;
+      }
+      .catalog-tabs{
+        top:-18px;
+        margin:-18px -16px 14px;
+        padding:12px 16px 10px;
+      }
+      .segment-grid{ grid-template-columns:1fr 1fr; }
+      .map-use-steps{ grid-template-columns:1fr 1fr 1fr; }
+    }
+
+    @media (max-width:420px){
+      .segment-grid{ grid-template-columns:1fr; }
+      .map-use-steps{ grid-template-columns:1fr; }
+    }
+
   </style>
 </head>
 <body>
@@ -1205,158 +1565,245 @@
     <aside id="leftPanel">
       <div class="mobile-sheet-handle"></div>
 
-      <div class="citizen-brand citizen-brand-compact">
-        <p class="citizen-intro">Explora las necesidades habitacionales, los beneficiarios y el suelo disponible por provincia y cantón.</p>
+      <div class="catalog-tabs" role="tablist" aria-label="Secciones del catálogo">
+        <button type="button" class="catalog-tab is-active" id="catalogMapTab" role="tab" aria-selected="true" aria-controls="catalogMapPanel" data-catalog-panel="catalogMapPanel">Explorar mapa</button>
+        <button type="button" class="catalog-tab" id="catalogIncentiveTab" role="tab" aria-selected="false" aria-controls="catalogIncentivePanel" data-catalog-panel="catalogIncentivePanel">Acceso al incentivo</button>
       </div>
 
-      <div class="section">
-        <div class="section-title">¿Qué quieres consultar?</div>
-        <div class="section-hint">Selecciona una vista rápida. Luego puedes activar o desactivar capas individualmente.</div>
-        <div class="mode-grid" aria-label="Vistas rápidas del catálogo">
-          <button type="button" class="view-mode-btn is-active" data-mode="general">Vista general</button>
-          <button type="button" class="view-mode-btn" data-mode="necesidad">Necesidad de vivienda</button>
-          <button type="button" class="view-mode-btn" data-mode="suelo">Suelo disponible</button>
-          <button type="button" class="view-mode-btn" data-mode="beneficiarios">Beneficiarios</button>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Información en el mapa</div>
-
-        <div class="layer-card">
-          <div class="check-row">
-            <input type="checkbox" id="toggleBeneficiariosCalificados" checked>
-            <label for="toggleBeneficiariosCalificados"><span class="layer-symbol dot dot-benef" aria-hidden="true"></span>Beneficiarios calificados</label>
+      <section id="catalogMapPanel" class="catalog-panel" role="tabpanel" aria-labelledby="catalogMapTab">
+        <div class="purpose-card">
+          <div class="purpose-icon" aria-hidden="true">⌖</div>
+          <div>
+            <strong>¿Para qué sirve este catálogo?</strong>
+            <p>Permite consultar información pública, georreferenciada y referencial sobre necesidades de vivienda, beneficiarios y suelo público disponible.</p>
           </div>
-          <div class="layer-explainer">Personas u hogares que han cumplido el proceso de calificación correspondiente.</div>
-          <div id="beneficiariosCalificadosCount" class="layer-count">Beneficiarios visibles: 0</div>
+          <div class="purpose-note">La información apoya la planificación, focalización y priorización de la política pública, y orienta a los contribuyentes interesados en acogerse al incentivo tributario.</div>
         </div>
 
-        <div class="layer-card">
-          <div class="check-row">
-            <input type="checkbox" id="toggleHex">
-            <label for="toggleHex"><span class="layer-symbol hex hex-own" aria-hidden="true"></span>Necesidad de vivienda en terreno propio</label>
+        <div class="section">
+          <div class="section-title">Cómo explorar el catálogo</div>
+          <div class="map-use-steps" aria-label="Pasos para consultar el mapa">
+            <div class="map-use-step"><b>1. Elige</b>Una vista de consulta.</div>
+            <div class="map-use-step"><b>2. Filtra</b>Provincia o cantón.</div>
+            <div class="map-use-step"><b>3. Consulta</b>Haz clic en el mapa.</div>
           </div>
-          <div class="layer-explainer">Concentración territorial de hogares que cuentan con terreno y requieren una solución habitacional.</div>
         </div>
 
-        <div class="layer-card">
-          <div class="check-row">
-            <input type="checkbox" id="toggleHex1B">
-            <label for="toggleHex1B"><span class="layer-symbol hex hex-state" aria-hidden="true"></span>Necesidad en terrenos urbanizados por el Estado</label>
+        <div class="section">
+          <div class="section-title">¿Qué quieres consultar?</div>
+          <div class="section-hint">Selecciona una vista rápida. Luego puedes activar o desactivar capas individualmente.</div>
+          <div class="mode-grid" aria-label="Vistas rápidas del catálogo">
+            <button type="button" class="view-mode-btn is-active" data-mode="general">Vista general</button>
+            <button type="button" class="view-mode-btn" data-mode="necesidad">Necesidad de vivienda</button>
+            <button type="button" class="view-mode-btn" data-mode="suelo">Suelo disponible</button>
+            <button type="button" class="view-mode-btn" data-mode="beneficiarios">Beneficiarios</button>
           </div>
-          <div class="layer-explainer">Concentración de hogares con necesidad de vivienda vinculada a suelo urbanizado por el Estado.</div>
         </div>
 
-        <div class="layer-card">
-          <div class="check-row">
-            <input type="checkbox" id="toggleBSN" checked>
-            <label for="toggleBSN"><span class="layer-symbol bsn" aria-hidden="true"></span>Predios del Banco de Suelo Nacional</label>
-          </div>
-          <div class="layer-explainer">Predios identificados con potencial para soluciones de vivienda de interés social.</div>
-        </div>
+        <div class="section">
+          <div class="section-title">Información en el mapa</div>
 
-        <div class="layer-card">
-          <div class="check-row">
-            <input type="checkbox" id="toggleSubsidio2B">
-            <label for="toggleSubsidio2B"><span class="layer-symbol dot dot-subsidio" aria-hidden="true"></span>Beneficiarios con subsidio parcial</label>
-          </div>
-          <div class="layer-explainer">Información correspondiente al segundo segmento de atención.</div>
-        </div>
-
-        <details class="compact-details">
-          <summary>Información territorial de referencia</summary>
           <div class="layer-card">
             <div class="check-row">
-              <input type="checkbox" id="toggleProvLayer">
-              <label for="toggleProvLayer"><span class="layer-symbol line-prov" aria-hidden="true"></span>Límites provinciales</label>
+              <input type="checkbox" id="toggleBeneficiariosCalificados" checked>
+              <label for="toggleBeneficiariosCalificados"><span class="layer-symbol dot dot-benef" aria-hidden="true"></span>Beneficiarios calificados</label>
             </div>
+            <div class="layer-explainer">Personas u hogares que han cumplido el proceso de calificación correspondiente.</div>
+            <div id="beneficiariosCalificadosCount" class="layer-count">Beneficiarios visibles: 0</div>
           </div>
+
           <div class="layer-card">
             <div class="check-row">
-              <input type="checkbox" id="toggleCantLayer">
-              <label for="toggleCantLayer"><span class="layer-symbol line-cant" aria-hidden="true"></span>Límites cantonales</label>
+              <input type="checkbox" id="toggleHex">
+              <label for="toggleHex"><span class="layer-symbol hex hex-own" aria-hidden="true"></span>Necesidad de vivienda en terreno propio</label>
             </div>
+            <div class="layer-explainer">Concentración territorial de hogares que cuentan con terreno y requieren una solución habitacional.</div>
+          </div>
+
+          <div class="layer-card">
+            <div class="check-row">
+              <input type="checkbox" id="toggleHex1B">
+              <label for="toggleHex1B"><span class="layer-symbol hex hex-state" aria-hidden="true"></span>Necesidad en terrenos urbanizados por el Estado</label>
+            </div>
+            <div class="layer-explainer">Concentración de hogares con necesidad de vivienda vinculada a suelo urbanizado por el Estado.</div>
+          </div>
+
+          <div class="layer-card">
+            <div class="check-row">
+              <input type="checkbox" id="toggleBSN" checked>
+              <label for="toggleBSN"><span class="layer-symbol bsn" aria-hidden="true"></span>Predios del Banco de Suelo Nacional</label>
+            </div>
+            <div class="layer-explainer">Predios identificados con potencial para soluciones de vivienda de interés social.</div>
+          </div>
+
+          <div class="layer-card">
+            <div class="check-row">
+              <input type="checkbox" id="toggleSubsidio2B">
+              <label for="toggleSubsidio2B"><span class="layer-symbol dot dot-subsidio" aria-hidden="true"></span>Beneficiarios con subsidio parcial</label>
+            </div>
+            <div class="layer-explainer">Información correspondiente al segundo segmento de atención.</div>
+          </div>
+
+          <details class="compact-details">
+            <summary>Información territorial de referencia</summary>
+            <div class="layer-card">
+              <div class="check-row">
+                <input type="checkbox" id="toggleProvLayer">
+                <label for="toggleProvLayer"><span class="layer-symbol line-prov" aria-hidden="true"></span>Límites provinciales</label>
+              </div>
+            </div>
+            <div class="layer-card">
+              <div class="check-row">
+                <input type="checkbox" id="toggleCantLayer">
+                <label for="toggleCantLayer"><span class="layer-symbol line-cant" aria-hidden="true"></span>Límites cantonales</label>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Consulta territorial</div>
+          <div class="section-hint">Elige una provincia y, si deseas, un cantón para obtener una radiografía del territorio.</div>
+
+          <div class="field">
+            <label for="provinciaSelect">Provincia</label>
+            <select id="provinciaSelect"><option value="">(Todas)</option></select>
+          </div>
+
+          <div class="field">
+            <label for="cantonSelect">Cantón</label>
+            <select id="cantonSelect" disabled><option value="">(Todos)</option></select>
+          </div>
+
+          <button class="btn" id="btnLimpiarFiltros">Ver todo el país</button>
+        </div>
+
+        <details class="section compact-details">
+          <summary>Opciones avanzadas de densidad</summary>
+          <div class="section-hint" style="margin-top:10px;">Filtra las zonas según el número de hogares concentrados.</div>
+          <div class="range-grid">
+            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r1" value="5-20" checked><label for="r1">5 - 20</label></div>
+            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r2" value="20-50" checked><label for="r2">20 - 50</label></div>
+            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r3" value="50-100" checked><label for="r3">50 - 100</label></div>
+            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r4" value="100-200" checked><label for="r4">100 - 200</label></div>
+            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r5" value="200-500" checked><label for="r5">200 - 500</label></div>
+            <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r6" value="500+" checked><label for="r6">&gt; 500</label></div>
+          </div>
+          <div class="field" style="margin-top:10px;">
+            <label for="hexOpacity">Transparencia de las zonas</label>
+            <input type="range" id="hexOpacity" min="0" max="100" step="5" value="80">
+            <div class="transparency-value">Opacidad actual: <span id="hexOpacityValue">80%</span></div>
           </div>
         </details>
-      </div>
 
-      <div class="section">
-        <div class="section-title">Consulta territorial</div>
-        <div class="section-hint">Elige una provincia y, si deseas, un cantón para obtener una radiografía del territorio.</div>
+        <div class="section">
+          <div class="section-title">Capas activas</div>
+          <div class="status-box" id="statusBox">
+            <div><strong>Zonas visibles:</strong> 0</div>
+            <div><strong>Predios BSN visibles:</strong> 0</div>
+            <div><strong>Beneficiarios visibles:</strong> 0</div>
+          </div>
+        </div>
+      </section>
 
-        <div class="field">
-          <label for="provinciaSelect">Provincia</label>
-          <select id="provinciaSelect"><option value="">(Todas)</option></select>
+      <section id="catalogIncentivePanel" class="catalog-panel" role="tabpanel" aria-labelledby="catalogIncentiveTab" hidden>
+        <div class="incentive-hero">
+          <span class="incentive-kicker">Incentivo tributario para vivienda de interés social</span>
+          <strong>Rebaja equivalente al 100% del valor efectivamente donado</strong>
+          <p>El beneficio tiene como límite máximo el 30% del Impuesto a la Renta causado en el ejercicio fiscal correspondiente.</p>
         </div>
 
-        <div class="field">
-          <label for="cantonSelect">Cantón</label>
-          <select id="cantonSelect" disabled><option value="">(Todos)</option></select>
+        <div class="section">
+          <div class="section-title">1. Identifica el segmento de donación</div>
+          <div class="segment-grid">
+            <article class="segment-card">
+              <span class="segment-badge">Segmento 1</span>
+              <strong>Donación de vivienda de interés social</strong>
+              <p>La vivienda cubre la totalidad del subsidio estatal.</p>
+              <ul class="segment-options">
+                <li>Terreno del beneficiario.</li>
+                <li>Terreno de propiedad del Estado.</li>
+                <li>Vivienda con terreno del contribuyente.</li>
+                <li>Vivienda con terreno del promotor o constructor.</li>
+              </ul>
+            </article>
+            <article class="segment-card">
+              <span class="segment-badge">Segmento 2</span>
+              <strong>Donación de recursos económicos</strong>
+              <p>Los valores se destinan a cubrir el subsidio parcial del Estado para financiar vivienda de interés social.</p>
+            </article>
+          </div>
         </div>
 
-        <button class="btn" id="btnLimpiarFiltros">Ver todo el país</button>
-      </div>
-
-      <details class="section compact-details">
-        <summary>Opciones avanzadas de densidad</summary>
-        <div class="section-hint" style="margin-top:10px;">Filtra las zonas según el número de hogares concentrados.</div>
-        <div class="range-grid">
-          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r1" value="5-20" checked><label for="r1">5 - 20</label></div>
-          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r2" value="20-50" checked><label for="r2">20 - 50</label></div>
-          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r3" value="50-100" checked><label for="r3">50 - 100</label></div>
-          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r4" value="100-200" checked><label for="r4">100 - 200</label></div>
-          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r5" value="200-500" checked><label for="r5">200 - 500</label></div>
-          <div class="check-row"><input type="checkbox" class="hex-range-filter" id="r6" value="500+" checked><label for="r6">&gt; 500</label></div>
+        <div class="section">
+          <div class="section-title">2. Sigue la ruta de acceso</div>
+          <ol class="process-list">
+            <li class="process-step">
+              <span class="process-number">1</span>
+              <div class="process-content">
+                <strong>Manifestación de interés</strong>
+                <p>Consulta el catálogo, selecciona el segmento y referencia el territorio, proyecto, beneficiario o código BSN que corresponda. Después descarga, completa y firma el formulario y el oficio.</p>
+                <div class="process-actions">
+                  <a class="download-link" href="Formato%20manifestacion%20de%20interes.docx" download>
+                    <span class="download-icon" aria-hidden="true">↓</span>
+                    <span>Descargar formulario de manifestación de interés</span>
+                  </a>
+                  <a class="download-link" href="Formato%20oficio.docx" download>
+                    <span class="download-icon" aria-hidden="true">↓</span>
+                    <span>Descargar formato de oficio</span>
+                  </a>
+                </div>
+              </div>
+            </li>
+            <li class="process-step">
+              <span class="process-number">2</span>
+              <div class="process-content">
+                <strong>Validación institucional</strong>
+                <p>El ente rector verificará la identidad del donante, la correspondencia con vivienda de interés social y la disponibilidad para aplicar el beneficio tributario.</p>
+                <span class="process-term">Término transitorio: 10 días hábiles</span>
+              </div>
+            </li>
+            <li class="process-step">
+              <span class="process-number">3</span>
+              <div class="process-content">
+                <strong>Suscripción del convenio</strong>
+                <p>Una vez aceptada la elegibilidad y verificados los requisitos, el donante y el ente rector suscribirán el convenio de donación.</p>
+                <span class="process-term">Término transitorio: 10 días hábiles desde la aceptación</span>
+              </div>
+            </li>
+            <li class="process-step">
+              <span class="process-number">4</span>
+              <div class="process-content">
+                <strong>Ejecución de la donación</strong>
+                <p>El donante construirá o transferirá las viviendas del Segmento 1, o transferirá los recursos económicos correspondientes al Segmento 2.</p>
+              </div>
+            </li>
+            <li class="process-step">
+              <span class="process-number">5</span>
+              <div class="process-content">
+                <strong>Perfeccionamiento y certificación</strong>
+                <p>La donación se perfecciona mediante el acta o la transferencia correspondiente, según el segmento y la modalidad. Posteriormente se emite la certificación habilitante para aplicar la rebaja tributaria.</p>
+              </div>
+            </li>
+          </ol>
         </div>
-        <div class="field" style="margin-top:10px;">
-          <label for="hexOpacity">Transparencia de las zonas</label>
-          <input type="range" id="hexOpacity" min="0" max="100" step="5" value="80">
-          <div class="transparency-value">Opacidad actual: <span id="hexOpacityValue">80%</span></div>
-        </div>
-      </details>
 
-      <div class="section">
-        <div class="section-title">Capas activas</div>
-        <div class="status-box" id="statusBox">
-          <div><strong>Zonas visibles:</strong> 0</div>
-          <div><strong>Predios BSN visibles:</strong> 0</div>
-          <div><strong>Beneficiarios visibles:</strong> 0</div>
+        <div class="submission-card">
+          <strong>Envía la manifestación de interés</strong>
+          <p>Adjunta el formulario de manifestación de interés y el formato de oficio completos. Mientras se habilita la ventanilla digital, remítelos al correo:</p>
+          <span class="email-address">tramites@mit.gob.ec</span>
+          <a class="email-link" href="mailto:tramites@mit.gob.ec?subject=Manifestaci%C3%B3n%20de%20inter%C3%A9s%20-%20Incentivo%20tributario%20VIS">Preparar correo electrónico</a>
         </div>
-      </div>
 
-      <div class="section downloads-section">
-        <p class="downloads-heading">Descarga aquí el formulario de manifestación de interés y formato de oficio</p>
-        <div class="download-links">
-          <a class="download-link" href="Formato%20manifestacion%20de%20interes.docx" download>
-            <span class="download-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <path d="M14 2v6h6"></path>
-                <path d="M12 12v6"></path>
-                <path d="m9 15 3 3 3-3"></path>
-              </svg>
-            </span>
-            <span>Formulario de manifestación de interés</span>
-          </a>
-          <a class="download-link" href="Formato%20oficio.docx" download>
-            <span class="download-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                <path d="M14 2v6h6"></path>
-                <path d="M12 12v6"></path>
-                <path d="m9 15 3 3 3-3"></path>
-              </svg>
-            </span>
-            <span>Formato de oficio</span>
-          </a>
+        <div class="legal-note">
+          <strong>Importante:</strong> la presentación de la manifestación de interés no constituye aceptación automática, no genera un derecho adquirido ni reserva por sí sola el cupo fiscal. La información del catálogo es referencial y deberá ser validada dentro del procedimiento aplicable.
         </div>
-      </div>
 
-      <div class="source-text">
-        <strong>Fuente:</strong> Viceministerio de Desarrollo Urbano Sostenible y Vivienda.<br>
-        La información del catálogo tiene fines de consulta pública y debe interpretarse conforme a su metodología y fecha de corte institucional.
-      </div>
+        <div class="source-text">
+          <strong>Base normativa:</strong> Reglamento Especial para la Aplicación del Régimen de Incentivos Tributarios para Vivienda de Interés Social.<br>
+          <strong>Fuente institucional:</strong> Viceministerio de Desarrollo Urbano Sostenible y Vivienda.
+        </div>
+      </section>
     </aside>
 
     <div id="mapWrap">
@@ -1385,7 +1832,7 @@
       <div class="mobile-backdrop" id="mobileBackdrop"></div>
 
       <div class="mobile-map-actions" aria-label="Controles móviles del mapa">
-        <button class="mobile-action-btn primary" id="mobileLayersBtn" type="button">☰ Capas y filtros</button>
+        <button class="mobile-action-btn primary" id="mobileLayersBtn" type="button">☰ Mapa y guía</button>
         <button class="mobile-action-btn" id="mobileSummaryBtn" type="button">Resumen</button>
         <button class="mobile-action-btn" id="mobileDetailBtn" type="button">Ficha</button>
       </div>
@@ -2819,6 +3266,30 @@ function parseCSV(text) {
     viewModeButtons.forEach(btn => {
       btn.addEventListener('click', () => applyViewMode(btn.dataset.mode));
     });
+
+
+
+    const catalogTabButtons = Array.from(document.querySelectorAll('.catalog-tab'));
+    const catalogPanels = Array.from(document.querySelectorAll('.catalog-panel'));
+
+    function activateCatalogPanel(panelId) {
+      catalogPanels.forEach(panel => {
+        panel.hidden = panel.id !== panelId;
+      });
+
+      catalogTabButtons.forEach(button => {
+        const active = button.dataset.catalogPanel === panelId;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-selected', String(active));
+      });
+
+      leftPanel.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    catalogTabButtons.forEach(button => {
+      button.addEventListener('click', () => activateCatalogPanel(button.dataset.catalogPanel));
+    });
+
 
     initData();
     setHexOpacity(hexOpacity.value);
